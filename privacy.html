@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kebijakan Privasi - Ahmad Store</title>
+</head>
+
+<script>
+(function(){
+
+// =======================
+// BLOKIR SHORTCUT
+// =======================
+document.addEventListener("keydown",function(e){
+
+let key = e.key.toUpperCase();
+
+if(
+key === "F12" ||
+(e.ctrlKey && e.shiftKey && ["I","J","C","K"].includes(key)) ||
+(e.ctrlKey && ["U","S","P"].includes(key))
+){
+e.preventDefault();
+return false;
+}
+
+});
+
+// =======================
+// BLOKIR KLIK KANAN
+// =======================
+document.addEventListener("contextmenu",function(e){
+e.preventDefault();
+});
+
+// =======================
+// BLOKIR COPY / SELECT
+// =======================
+["copy","cut","paste","selectstart","dragstart"].forEach(function(evt){
+document.addEventListener(evt,function(e){
+e.preventDefault();
+});
+});
+
+// =======================
+// CSS PROTECTION
+// =======================
+let style = document.createElement("style");
+
+style.innerHTML = `
+*{
+user-select:none !important;
+-webkit-user-select:none !important;
+}
+
+img{
+pointer-events:none !important;
+-webkit-user-drag:none !important;
+}
+`;
+
+document.head.appendChild(style);
+
+// =======================
+// MATIKAN CONSOLE
+// =======================
+(function(){
+let noop=function(){};
+["log","warn","error","info","debug","table","trace","clear"]
+.forEach(function(m){
+console[m]=noop;
+});
+})();
+
+// =======================
+// DETEKSI DEVTOOLS
+// =======================
+let devtoolsOpen=false;
+
+function detectDevTools(){
+
+let width=window.outerWidth-window.innerWidth;
+let height=window.outerHeight-window.innerHeight;
+
+if(width>160 || height>160){
+
+if(!devtoolsOpen){
+
+devtoolsOpen=true;
+
+// blur halaman
+document.body.style.filter="blur(8px)";
+
+// overlay
+let overlay=document.createElement("div");
+overlay.id="devtools-block";
+
+overlay.style=`
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999999;
+font-family:sans-serif;
+text-align:center;
+padding:40px
+`;
+
+overlay.innerHTML=`
+<div style="font-size:60px"></div>
+<h2 style="color:#ff4444;margin:10px 0">Akses Ditolak</h2>
+<p style="opacity:.8">Developer Tools terdeteksi.<br>Tutup DevTools untuk melanjutkan.</p>
+`;
+
+document.body.appendChild(overlay);
+
+// redirect otomatis
+setTimeout(function(){
+location.href="https://google.com";
+},5000);
+
+}
+
+}else{
+
+devtoolsOpen=false;
+
+document.body.style.filter="";
+
+let overlay=document.getElementById("devtools-block");
+if(overlay) overlay.remove();
+
+}
+
+}
+
+setInterval(detectDevTools,500);
+
+// =======================
+// DEBUGGER LOOP
+// =======================
+setInterval(function(){
+debugger;
+},100);
+
+})();
+</script>
+
+<body style="background:#05050a;color:#fff;font-family:sans-serif;padding:20px">
+
+<h1>Kebijakan Privasi</h1>
+
+<p>Kami menghargai privasi Anda. Data yang dikumpulkan hanya digunakan untuk keperluan layanan.</p>
+
+<ul>
+<li>Data tidak dibagikan ke pihak ketiga</li>
+<li>Transaksi aman & terenkripsi</li>
+<li>Informasi hanya digunakan untuk layanan</li>
+</ul>
+
+<a href="index.html">← Kembali</a>
+
+</body>
+</html>

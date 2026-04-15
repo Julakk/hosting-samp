@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server Specifications</title>
+
+<script>
+(function(){
+
+// =======================
+// BLOKIR SHORTCUT
+// =======================
+document.addEventListener("keydown",function(e){
+
+let key = e.key.toUpperCase();
+
+if(
+key === "F12" ||
+(e.ctrlKey && e.shiftKey && ["I","J","C","K"].includes(key)) ||
+(e.ctrlKey && ["U","S","P"].includes(key))
+){
+e.preventDefault();
+return false;
+}
+
+});
+
+// =======================
+// BLOKIR KLIK KANAN
+// =======================
+document.addEventListener("contextmenu",function(e){
+e.preventDefault();
+});
+
+// =======================
+// BLOKIR COPY / SELECT
+// =======================
+["copy","cut","paste","selectstart","dragstart"].forEach(function(evt){
+document.addEventListener(evt,function(e){
+e.preventDefault();
+});
+});
+
+// =======================
+// CSS PROTECTION
+// =======================
+let style = document.createElement("style");
+
+style.innerHTML = `
+*{
+user-select:none !important;
+-webkit-user-select:none !important;
+}
+
+img{
+pointer-events:none !important;
+-webkit-user-drag:none !important;
+}
+`;
+
+document.head.appendChild(style);
+
+// =======================
+// MATIKAN CONSOLE
+// =======================
+(function(){
+let noop=function(){};
+["log","warn","error","info","debug","table","trace","clear"]
+.forEach(function(m){
+console[m]=noop;
+});
+})();
+
+// =======================
+// DETEKSI DEVTOOLS
+// =======================
+let devtoolsOpen=false;
+
+function detectDevTools(){
+
+let width=window.outerWidth-window.innerWidth;
+let height=window.outerHeight-window.innerHeight;
+
+if(width>160 || height>160){
+
+if(!devtoolsOpen){
+
+devtoolsOpen=true;
+
+// blur halaman
+document.body.style.filter="blur(8px)";
+
+// overlay
+let overlay=document.createElement("div");
+overlay.id="devtools-block";
+
+overlay.style=`
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999999;
+font-family:sans-serif;
+text-align:center;
+padding:40px
+`;
+
+overlay.innerHTML=`
+<div style="font-size:60px"></div>
+<h2 style="color:#ff4444;margin:10px 0">Akses Ditolak</h2>
+<p style="opacity:.8">Developer Tools terdeteksi.<br>Tutup DevTools untuk melanjutkan.</p>
+`;
+
+document.body.appendChild(overlay);
+
+// redirect otomatis
+setTimeout(function(){
+location.href="https://google.com";
+},5000);
+
+}
+
+}else{
+
+devtoolsOpen=false;
+
+document.body.style.filter="";
+
+let overlay=document.getElementById("devtools-block");
+if(overlay) overlay.remove();
+
+}
+
+}
+
+setInterval(detectDevTools,500);
+
+// =======================
+// DEBUGGER LOOP
+// =======================
+setInterval(function(){
+debugger;
+},100);
+
+})();
+</script>
+
+<style>
+:root{
+ --p:#ff2d9a;
+ --u:#8b5cff;
+ --bg1:#05050a;
+ --bg2:#0a0a18;
+ --card:#0b0b0f;
+ --glow:0 0 25px rgba(139,92,255,.5);
+}
+
+body{
+ margin:0;
+ font-family:system-ui,Segoe UI,Arial;
+ background:linear-gradient(180deg,var(--bg1),var(--bg2));
+ color:#fff;
+ display:flex;
+ align-items:flex-start; /* UBAH INI */
+ justify-content:center;
+ min-height:100vh;
+ padding-top:30px; /* tambah jarak atas */
+}
+
+/* CONTAINER */
+.spec-page{
+ max-width:1100px;
+ width:100%;
+ padding:60px 20px;
+ text-align:center;
+}
+
+/* TITLE */
+.spec-page h1{
+ font-size:36px;
+ margin-bottom:10px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.spec-page p{
+ color:#aaa;
+ margin-bottom:50px;
+}
+
+/* GRID */
+.spec-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:25px;
+}
+
+/* CARD */
+.spec-card{
+ background:linear-gradient(180deg,#0b0b0f,#111120);
+ border-radius:20px;
+ padding:35px 30px;
+ border:1px solid rgba(255,255,255,.08);
+ transition:.3s;
+ position:relative;
+ overflow:hidden;
+}
+
+.spec-card:hover{
+ transform:translateY(-6px) scale(1.02);
+ box-shadow:var(--glow);
+ border-color:var(--u);
+}
+
+/* ICON */
+.spec-icon{
+ margin-bottom:14px;
+}
+
+.spec-icon svg{
+ width:44px;
+ height:44px;
+ fill:url(#grad);
+}
+
+/* LABEL */
+.spec-label{
+ color:#aaa;
+ font-size:14px;
+ margin-bottom:6px;
+}
+
+/* VALUE */
+.spec-value{
+ font-size:22px;
+ font-weight:700;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.spec-sub{
+ font-size:14px;
+ color:#bbb;
+ margin-top:6px;
+}
+
+/* BACK BUTTON */
+.back-btn{
+ display:inline-block;
+ margin-top:50px;
+ padding:12px 26px;
+ border-radius:30px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ color:#fff;
+ text-decoration:none;
+ box-shadow:var(--glow);
+ transition:.3s;
+}
+
+.back-btn:hover{
+ opacity:.85;
+ transform:translateY(-2px);
+}
+
+@media (max-width:768px){
+
+ body{
+  align-items:flex-start;
+  padding-top:25px;
+ }
+
+ .spec-page{
+  padding-top:20px;
+ }
+
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Gradient -->
+<svg width="0" height="0">
+<defs>
+<linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#ff2d9a"/>
+<stop offset="100%" stop-color="#8b5cff"/>
+</linearGradient>
+</defs>
+</svg>
+
+<div class="spec-page">
+
+<h1>Server Specifications</h1>
+<p>Infrastruktur enterprise dengan performa stabil & virtualisasi KVM</p>
+
+<div class="spec-grid">
+
+<!-- OS -->
+<div class="spec-card">
+<div class="spec-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 2L2 7l10 5 10-5-10-5zm0 7L2 14l10 5 10-5-10-5z"/>
+</svg>
+</div>
+<div class="spec-label">Operating System</div>
+<div class="spec-value">Ubuntu 24.04.3 LTS</div>
+<div class="spec-sub">Kernel 6.8.0-100-generic (x86_64)</div>
+</div>
+
+<!-- CPU -->
+<div class="spec-card">
+<div class="spec-icon">
+<svg viewBox="0 0 24 24">
+<path d="M9 2v2H7v2H5v2H3v8h2v2h2v2h2v2h6v-2h2v-2h2v-2h2V8h-2V6h-2V4h-2V2H9zm6 6v8H9V8h6z"/>
+</svg>
+</div>
+<div class="spec-label">CPU</div>
+<div class="spec-value">AMD EPYC 7302</div>
+<div class="spec-sub">5 vCore @ 2.999GHz</div>
+</div>
+
+<!-- RAM -->
+<div class="spec-card">
+<div class="spec-icon">
+<svg viewBox="0 0 24 24">
+<path d="M2 7h20v10H2V7zm2 2v6h16V9H4zm2 1h4v4H6v-4z"/>
+</svg>
+</div>
+<div class="spec-label">Memory</div>
+<div class="spec-value">8GB RAM</div>
+<div class="spec-sub">8936 MiB Total</div>
+</div>
+
+<!-- Virtualization -->
+<div class="spec-card">
+<div class="spec-icon">
+<svg viewBox="0 0 24 24">
+<path d="M4 4h16v4H4zm0 6h16v4H4zm0 6h16v4H4z"/>
+</svg>
+</div>
+<div class="spec-label">Virtualization</div>
+<div class="spec-value">KVM / QEMU</div>
+<div class="spec-sub">Standard PC (i440FX + PIIX)</div>
+</div>
+
+</div>
+
+<a href="index.html" class="back-btn">← Kembali</a>
+
+</div>
+
+</body>
+</html>

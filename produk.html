@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paket Hosting | Ahmad Store</title>
+
+<script>
+(function(){
+
+// =======================
+// BLOKIR SHORTCUT
+// =======================
+document.addEventListener("keydown",function(e){
+
+let key = e.key.toUpperCase();
+
+if(
+key === "F12" ||
+(e.ctrlKey && e.shiftKey && ["I","J","C","K"].includes(key)) ||
+(e.ctrlKey && ["U","S","P"].includes(key))
+){
+e.preventDefault();
+return false;
+}
+
+});
+
+// =======================
+// BLOKIR KLIK KANAN
+// =======================
+document.addEventListener("contextmenu",function(e){
+e.preventDefault();
+});
+
+// =======================
+// BLOKIR COPY / SELECT
+// =======================
+["copy","cut","paste","selectstart","dragstart"].forEach(function(evt){
+document.addEventListener(evt,function(e){
+e.preventDefault();
+});
+});
+
+// =======================
+// CSS PROTECTION
+// =======================
+let style = document.createElement("style");
+
+style.innerHTML = `
+*{
+user-select:none !important;
+-webkit-user-select:none !important;
+}
+
+img{
+pointer-events:none !important;
+-webkit-user-drag:none !important;
+}
+`;
+
+document.head.appendChild(style);
+
+// =======================
+// MATIKAN CONSOLE
+// =======================
+(function(){
+let noop=function(){};
+["log","warn","error","info","debug","table","trace","clear"]
+.forEach(function(m){
+console[m]=noop;
+});
+})();
+
+// =======================
+// DETEKSI DEVTOOLS
+// =======================
+let devtoolsOpen=false;
+
+function detectDevTools(){
+
+let width=window.outerWidth-window.innerWidth;
+let height=window.outerHeight-window.innerHeight;
+
+if(width>160 || height>160){
+
+if(!devtoolsOpen){
+
+devtoolsOpen=true;
+
+// blur halaman
+document.body.style.filter="blur(8px)";
+
+// overlay
+let overlay=document.createElement("div");
+overlay.id="devtools-block";
+
+overlay.style=`
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999999;
+font-family:sans-serif;
+text-align:center;
+padding:40px
+`;
+
+overlay.innerHTML=`
+<div style="font-size:60px"></div>
+<h2 style="color:#ff4444;margin:10px 0">Akses Ditolak</h2>
+<p style="opacity:.8">Developer Tools terdeteksi.<br>Tutup DevTools untuk melanjutkan.</p>
+`;
+
+document.body.appendChild(overlay);
+
+// redirect otomatis
+setTimeout(function(){
+location.href="https://google.com";
+},5000);
+
+}
+
+}else{
+
+devtoolsOpen=false;
+
+document.body.style.filter="";
+
+let overlay=document.getElementById("devtools-block");
+if(overlay) overlay.remove();
+
+}
+
+}
+
+setInterval(detectDevTools,500);
+
+// =======================
+// DEBUGGER LOOP
+// =======================
+setInterval(function(){
+debugger;
+},100);
+
+})();
+</script>
+
+<style>
+:root{
+ --p:#ff2d9a;
+ --u:#8b5cff;
+ --bg:#05050a;
+ --card:#12121c;
+ --glow:0 0 18px rgba(255,45,154,.6);
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:system-ui,Segoe UI;
+ background:var(--bg);
+ color:#fff;
+}
+
+/* HEADER */
+header{
+ position:fixed;
+ top:0;left:0;right:0;
+ padding:14px 20px;
+ background:rgba(10,10,18,.75);
+ backdrop-filter:blur(12px);
+ display:flex;
+ justify-content:space-between;
+ z-index:9;
+}
+.logo{
+ font-weight:900;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+nav a{
+ color:#fff;
+ margin-left:16px;
+ text-decoration:none;
+ font-size:14px;
+}
+
+/* TITLE */
+.page-title{
+ padding:120px 20px 30px;
+ text-align:center;
+}
+.page-title h1{
+ font-size:32px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ text-shadow:var(--glow);
+}
+
+/* FILTER */
+.filter-wrap{
+ display:flex;
+ justify-content:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:30px;
+}
+.filter{
+ padding:10px 18px;
+ border-radius:999px;
+ background:var(--card);
+ color:#fff;
+ border:1px solid rgba(255,255,255,.12);
+ cursor:pointer;
+ transition:.3s;
+}
+.filter:hover,
+.filter.active{
+ background:linear-gradient(90deg,var(--p),var(--u));
+ box-shadow:var(--glow);
+ border:none;
+}
+
+/* PAKET */
+.paket{
+ padding:0 20px 80px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:22px;
+}
+.card{
+ background:var(--card);
+ border-radius:20px;
+ padding:22px;
+ border:1px solid rgba(255,255,255,.08);
+ transition:.35s;
+}
+.card h3{
+ margin-top:0;
+ color:var(--p);
+}
+.card p{
+ margin:6px 0;
+ font-size:14px;
+ color:#ccc;
+}
+.card:hover{
+ transform:translateY(-6px) scale(1.02);
+ box-shadow:
+ 0 0 20px rgba(255,0,150,.6),
+ 0 0 40px rgba(0,140,255,.5),
+ 0 0 60px rgba(0,255,200,.4);
+}
+.order-btn{
+ display:block;
+ margin-top:14px;
+ text-align:center;
+ padding:12px;
+ border-radius:999px;
+ text-decoration:none;
+ color:#fff;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ box-shadow:var(--glow);
+ font-weight:600;
+}
+
+/* REVEAL */
+.reveal{
+ opacity:0;
+ transform:translateY(40px);
+ transition:1s;
+}
+.reveal.active{
+ opacity:1;
+ transform:none;
+}
+
+/* FOOTER */
+footer{
+ background:#0b0b14;
+ padding:40px 20px 25px;
+ text-align:center;
+ border-top:1px solid rgba(255,255,255,.1);
+}
+footer .f-logo{
+ font-weight:900;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+footer p{
+ font-size:14px;
+ color:#aaa;
+}
+footer small{
+ color:#666;
+ font-size:12px;
+}
+.icon{
+ width:16px;
+ height:16px;
+ fill:#ff2d9a;
+ margin-right:6px;
+ filter:drop-shadow(0 0 6px rgba(255,45,154,.6));
+ vertical-align:middle;
+}
+
+.card:hover .icon{
+ filter:
+  drop-shadow(0 0 6px #ff0080)
+  drop-shadow(0 0 14px #00e0ff);
+}
+.filter{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ padding:10px 18px;
+ background:#111;
+ border:1px solid rgba(255,255,255,.08);
+ border-radius:14px;
+ color:#ccc;
+ cursor:pointer;
+ transition:.3s;
+}
+
+.filter.active,
+.filter:hover{
+ color:#fff;
+ border-color:#ff2d9a;
+ box-shadow:0 0 12px rgba(255,45,154,.35);
+}
+
+.ficon{
+ width:16px;
+ height:16px;
+ fill:#ff2d9a;
+ filter:drop-shadow(0 0 6px rgba(255,45,154,.6));
+}
+
+.filter:hover .ficon{
+ filter:
+  drop-shadow(0 0 6px #ff0080)
+  drop-shadow(0 0 14px #00e0ff);
+}
+.bot-product{
+ padding:80px 20px;
+ text-align:center;
+}
+
+.bot-product h2{
+ font-size:28px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.bot-product .sub{
+ color:#aaa;
+ max-width:520px;
+ margin:10px auto 40px;
+ font-size:14px;
+}
+
+.bot-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:26px;
+ max-width:1100px;
+ margin:auto;
+}
+
+.bot-card{
+ background:#0b0b0f;
+ border:1px solid rgba(255,255,255,.08);
+ border-radius:22px;
+ padding:28px;
+ position:relative;
+ transition:.35s;
+}
+
+.bot-card:hover{
+ transform:translateY(-6px);
+ box-shadow:0 0 28px rgba(255,45,154,.35);
+ border-color:var(--p);
+}
+
+.bot-card h3{
+ margin:0 0 8px;
+ font-size:18px;
+}
+
+.bot-card .price{
+ font-size:18px;
+ font-weight:800;
+ color:var(--p);
+ margin-bottom:14px;
+}
+
+.bot-card ul{
+ list-style:none;
+ padding:0;
+ margin:0 0 22px;
+ text-align:left;
+}
+
+.bot-card li{
+ font-size:14px;
+ margin-bottom:8px;
+ color:#ccc;
+}
+
+.bot-btn{
+ display:block;
+ text-align:center;
+ padding:12px;
+ border-radius:999px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ color:#fff;
+ font-weight:700;
+ text-decoration:none;
+ box-shadow:var(--glow);
+ transition:.3s;
+}
+
+.bot-btn:hover{
+ transform:scale(1.05);
+}
+
+/* Highlight card */
+.bot-card.highlight{
+ border-color:#8b5cff;
+ box-shadow:0 0 35px rgba(139,92,255,.5);
+}
+
+.badge{
+ position:absolute;
+ top:-12px;
+ right:20px;
+ background:linear-gradient(90deg,#ff2d9a,#8b5cff);
+ padding:6px 14px;
+ border-radius:999px;
+ font-size:11px;
+ font-weight:800;
+}
+.filter{
+ display:flex;
+ align-items:center;
+ gap:8px;
+}
+
+.filter-icon{
+ width:18px;
+ height:18px;
+ fill:currentColor;
+}
+.filter{
+ display:flex;
+ align-items:center;
+ gap:8px;
+}
+
+.filter-icon{
+ width:18px;
+ height:18px;
+ fill:currentColor;
+ transition:.35s ease;
+}
+
+/* Warna khusus Discord */
+.filter-icon.discord{
+ filter:drop-shadow(0 0 6px rgba(114,137,218,.6));
+}
+
+/* ===== ANIMASI SAAT ACTIVE ===== */
+.filter.active .filter-icon{
+ animation:iconPulse 1.4s infinite alternate;
+ transform:scale(1.15) rotate(-6deg);
+}
+
+@keyframes iconPulse{
+ 0%{
+  filter:
+   drop-shadow(0 0 6px #5865f2);
+ }
+ 100%{
+  filter:
+   drop-shadow(0 0 14px #5865f2)
+   drop-shadow(0 0 24px #8b5cff);
+ }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">⚡AHMAD STORE</div>
+ <nav>
+  <a href="index.html">Home</a>
+  <a href="testimoni.html">Testimoni</a>
+ </nav>
+</header>
+
+<div class="page-title reveal">
+ <h1>Paket Hosting SA-MP</h1>
+</div>
+
+<div class="filter-wrap reveal">
+
+<button class="filter active" onclick="filterPaket('all',this)">
+ <svg class="ficon" viewBox="0 0 24 24">
+  <path d="M3 4h18v4H3zm0 6h18v4H3zm0 6h18v4H3z"/>
+ </svg>
+ Semua
+</button>
+
+<button class="filter" onclick="filterPaket('ryzen',this)">
+ <svg class="ficon" viewBox="0 0 24 24">
+  <path d="M13 2L3 14h7l-1 8 10-12h-7z"/>
+ </svg>
+ Ryzen
+</button>
+
+<button class="filter" onclick="filterPaket('cloud',this)">
+ <svg class="ficon" viewBox="0 0 24 24">
+  <path d="M12 2l4 6 7 1-5 5 1 7-7-3-7 3 1-7-5-5 7-1z"/>
+ </svg>
+ Cloud
+</button>
+
+<button class="filter" onclick="filterPaket('budged',this)">
+ <svg class="ficon" viewBox="0 0 24 24">
+  <path d="M12 1C7 1 4 3 4 6v12c0 3 3 5 8 5s8-2 8-5V6c0-3-3-5-8-5zm0 2c4 0 6 1 6 3s-2 3-6 3-6-1-6-3 2-3 6-3z"/>
+ </svg>
+ Budget
+ </button>
+ 
+<button class="filter" onclick="filterPaket('dedicated',this)">
+  <svg class="filter-icon samp" viewBox="0 0 24 24">
+    <path d="M3 12l18-9-4 9 4 9z"/>
+  </svg>
+  Dedicated
+</button>
+</div>
+
+<section id="paket" class="paket reveal">
+<!-- ================= RYZEN ================= -->
+<div class="card ryzen">
+<h3>SA-MP Ryzen Hosting</h3>
+<p class="price">Rp 30.000 / bulan</p>
+<p>Slot Player: 50</p>
+<p>RAM: Unlimitede</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Cocok untuk server pemula & test project</p>
+<p>Status: READY</p>
+<p class="loc">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+ </svg>
+ Ryzen
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card ryzen">
+<h3>SA-MP Ryzen Hosting</h3>
+<p class="price">Rp 55.000 / bulan</p>
+<p>Slot Player: 100</p>
+<p>RAM: Unlimitede</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Cocok untuk server yang mulai berkembang</p>
+<p>Status: READY</p>
+<p class="loc">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+ </svg>
+ Ryzen
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card ryzen">
+<h3>SA-MP Ryzen Hosting</h3>
+<p class="price">Rp 80.000 / bulan</p>
+<p>Slot Player: 150</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Stabil untuk server aktif & ramai</p>
+<p>Status: READY</p>
+<p class="loc">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+ </svg>
+ Ryzen
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card ryzen">
+<h3>SA-MP Ryzen Hosting</h3>
+<p class="price">Rp 105.000 / bulan</p>
+<p>Slot Player: 200</p>
+<p>RAM: Unlimited</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Rekomendasi untuk server besar & serius</p>
+<p>Status: READY</p>
+<p class="loc">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+ </svg>
+ Ryzen
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<!-- ================= CLOUD ================= -->
+<div class="card cloud">
+<h3>SA-MP Cloud Hosting</h3>
+<p class="price">Rp 60.000 / bulan</p>
+<p>Slot Player: 25</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M4 4h16v12H4zM2 20h20v-2H2z"/>
+ </svg>
+ Cloud
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card cloud">
+<h3>SA-MP Cloud Hosting</h3>
+<p class="price">Rp 120.000 / bulan</p>
+<p>Slot Player: 50</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M4 4h16v12H4zM2 20h20v-2H2z"/>
+ </svg>
+ Cloud
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card cloud">
+<h3>SA-MP Cloud Hosting</h3>
+<p class="price">Rp 200.000 / bulan</p>
+<p>Slot Player: 100</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M4 4h16v12H4zM2 20h20v-2H2z"/>
+ </svg>
+ Cloud
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card cloud">
+<h3>SA-MP Cloud Hosting</h3>
+<p class="price">Rp 300.000 / bulan</p>
+<p>Slot Player: 200</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M4 4h16v12H4zM2 20h20v-2H2z"/>
+ </svg>
+Cloud
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<!-- ================= BUDGET ================= -->
+<div class="card budged">
+<h3>SA-MP Budget Hosting</h3>
+<p class="price">Rp 30.000 / bulan</p>
+<p>Slot Player: 25</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M3 12l7 7 11-11"/>
+ </svg>
+ Budget
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card budged">
+<h3>SA-MP Budget Hosting</h3>
+<p class="price">Rp 60.000 / bulan</p>
+<p>Slot Player: 50</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M3 12l7 7 11-11"/>
+ </svg>
+ Budget
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card budged">
+<h3>SA-MP Budget Hosting</h3>
+<p class="price">Rp 100.000 / bulan</p>
+<p>Slot Player: 100</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M3 12l7 7 11-11"/>
+ </svg>
+ Budget
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card budged">
+<h3>SA-MP Budget Hosting</h3>
+<p class="price">Rp 180.000 / bulan</p>
+<p>Slot Player: 200</p>
+<p>RAM: Unlimitide</p>
+<p>Core: Core Xeon</p>
+<p>Disk: NVMe SSD</p>
+<p>Status: READY</p>
+<p class="os">
+ <svg class="icon" viewBox="0 0 24 24">
+  <path d="M3 12l7 7 11-11"/>
+ </svg>
+ Budget
+</p>
+<a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<!-- ================= SAMP DEDICATED ================= -->
+
+<div class="card dedicated">
+  <h3>SAMP Dedicated</h3>
+  <p class="price">Rp 150.000 / bulan</p>
+  <p>Slot Player: 150</p>
+  <p>RAM: Unlimitide</p>
+  <p>Core: Core Xeon</p>
+  <p>Disk: NVMe SSD</p>
+  <p>Status: READY</p>
+  <svg class="filter-icon samp" viewBox="0 0 24 24">
+    <path d="M3 12l18-9-4 9 4 9z"/>
+  </svg>
+  <p>SAMP Server</p>
+  <a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card dedicated">
+  <h3>SAMP Dedicated</h3>
+  <p class="price">Rp 200.000 / bulan</p>
+  <p>Slot Player: 200</p>
+  <p>RAM: Unlimitide</p>
+  <p>Core: Core Xeon</p>
+  <p>Disk: NVMe SSD</p>
+  <p>Status: READY</p>
+  <svg class="filter-icon samp" viewBox="0 0 24 24">
+    <path d="M3 12l18-9-4 9 4 9z"/>
+  </svg>
+  <p>SAMP Server</p>
+  <a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card dedicated">
+  <h3>SAMP Dedicated Custom</h3>
+  <p class="price">Rp 300.000 / bulan</p>
+  <p>Slot Player: 300</p>
+  <p>RAM: Unlimitide</p>
+  <p>Core: Core Xeon</p>
+  <p>Disk: NVMe SSD</p>
+  <p>Status: READY</p>
+  <svg class="filter-icon samp" viewBox="0 0 24 24">
+    <path d="M3 12l18-9-4 9 4 9z"/>
+  </svg>
+  <p>SAMP Server</p>
+  <a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card dedicated">
+  <h3>SAMP Dedicated Custom</h3>
+  <p class="price">Rp 400.000 / bulan</p>
+  <p>Slot Player: 400</p>
+  <p>RAM: Unlimitide</p>
+  <p>Core: Core Xeon</p>
+  <p>Disk: NVMe SSD</p>
+  <p>Status: READY</p>
+  <svg class="filter-icon samp" viewBox="0 0 24 24">
+    <path d="M3 12l18-9-4 9 4 9z"/>
+  </svg>
+  <p>SAMP Server</p>
+  <a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+
+<div class="card dedicated">
+  <h3>SAMP Dedicated Custom</h3>
+  <p class="price">Rp 500.000 / bulan</p>
+  <p>Slot Player: 500</p>
+  <p>RAM: Unlimitide</p>
+  <p>Core: Core Xeon</p>
+  <p>Disk: NVMe SSD</p>
+  <p>Status: READY</p>
+  <svg class="filter-icon samp" viewBox="0 0 24 24">
+    <path d="M3 12l18-9-4 9 4 9z"/>
+  </svg>
+  <p>SAMP Server</p>
+  <a class="order-btn" href="#" onclick="orderWA(this); return false;">Order</a>
+</div>
+</section>
+
+<footer class="reveal">
+ <div class="f-logo">AHMAD STORE</div>
+ <p>Hosting SA-MP Murah Stabil Anti Lag</p>
+ <small>© 2026 Ahmad Store</small>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* =========================
+     FILTER
+  ========================== */
+  window.filterPaket = function(type, btn){
+
+    document.querySelectorAll('.filter')
+      .forEach(b => b.classList.remove('active'));
+
+    btn.classList.add('active');
+
+    document.querySelectorAll('.card')
+      .forEach(card => {
+
+        const show =
+          type === 'all' ||
+          card.classList.contains(type);
+
+        card.style.display =
+          show ? '' : 'none';
+
+      });
+  };
+
+
+  /* =========================
+     ORDER WHATSAPP
+  ========================== */
+  window.orderWA = function(el){
+
+  const card = el.closest('.card');
+  if (!card) return;
+
+  const nama =
+    card.querySelector('h3')?.innerText || 'Produk';
+
+  const hargaText =
+    card.querySelector('.price')?.innerText || '0';
+
+  const msg =
+`Halo Ahmad Store 👋
+Saya ingin order:
+
+📦 Paket: ${nama}
+💰 Harga: ${hargaText}
+
+Mohon info selanjutnya 🙏`;
+
+  window.open(
+    'https://wa.me/6287854851480?text=' +
+    encodeURIComponent(msg),
+    '_blank'
+  );
+};
+
+  /* =========================
+     ANIMATION REVEAL
+  ========================== */
+  document.querySelectorAll('.reveal')
+  .forEach(el => {
+
+    const observer =
+      new IntersectionObserver(entries => {
+
+        if(entries[0].isIntersecting){
+          el.classList.add('active');
+          observer.disconnect();
+        }
+
+      }, { threshold: 0.15 });
+
+    observer.observe(el);
+
+  });
+
+});
+</script>
+
+</body>
+</html>

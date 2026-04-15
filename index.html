@@ -1,0 +1,1165 @@
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ahmad Store | Hosting SA-MP Murah & Stabil</title>
+
+<!-- FAVICON & PWA -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="description" content="AhmadHosting menyediakan Hosting Ryzen, Premium, Budget & Bot dengan performa tinggi, uptime stabil, harga terjangkau, dan support 24 jam. Solusi terbaik untuk Server SA-MP dan bot Anda.">
+<meta name="author" content="AhmadHosting">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#ff2d9a">
+
+<script>
+(function(){
+
+// =======================
+// BLOKIR SHORTCUT
+// =======================
+document.addEventListener("keydown",function(e){
+
+let key = e.key.toUpperCase();
+
+if(
+key === "F12" ||
+(e.ctrlKey && e.shiftKey && ["I","J","C","K"].includes(key)) ||
+(e.ctrlKey && ["U","S","P"].includes(key))
+){
+e.preventDefault();
+return false;
+}
+
+});
+
+// =======================
+// BLOKIR KLIK KANAN
+// =======================
+document.addEventListener("contextmenu",function(e){
+e.preventDefault();
+});
+
+// =======================
+// BLOKIR COPY / SELECT
+// =======================
+["copy","cut","paste","selectstart","dragstart"].forEach(function(evt){
+document.addEventListener(evt,function(e){
+e.preventDefault();
+});
+});
+
+// =======================
+// CSS PROTECTION
+// =======================
+let style = document.createElement("style");
+
+style.innerHTML = `
+*{
+user-select:none !important;
+-webkit-user-select:none !important;
+}
+
+img{
+pointer-events:none !important;
+-webkit-user-drag:none !important;
+}
+`;
+
+document.head.appendChild(style);
+
+// =======================
+// MATIKAN CONSOLE
+// =======================
+(function(){
+let noop=function(){};
+["log","warn","error","info","debug","table","trace","clear"]
+.forEach(function(m){
+console[m]=noop;
+});
+})();
+
+// =======================
+// DETEKSI DEVTOOLS
+// =======================
+let devtoolsOpen=false;
+
+function detectDevTools(){
+
+let width=window.outerWidth-window.innerWidth;
+let height=window.outerHeight-window.innerHeight;
+
+if(width>160 || height>160){
+
+if(!devtoolsOpen){
+
+devtoolsOpen=true;
+
+// blur halaman
+document.body.style.filter="blur(8px)";
+
+// overlay
+let overlay=document.createElement("div");
+overlay.id="devtools-block";
+
+overlay.style=`
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999999;
+font-family:sans-serif;
+text-align:center;
+padding:40px
+`;
+
+overlay.innerHTML=`
+<div style="font-size:60px"></div>
+<h2 style="color:#ff4444;margin:10px 0">Akses Ditolak</h2>
+<p style="opacity:.8">Developer Tools terdeteksi.<br>Tutup DevTools untuk melanjutkan.</p>
+`;
+
+document.body.appendChild(overlay);
+
+// redirect otomatis
+setTimeout(function(){
+location.href="https://google.com";
+},5000);
+
+}
+
+}else{
+
+devtoolsOpen=false;
+
+document.body.style.filter="";
+
+let overlay=document.getElementById("devtools-block");
+if(overlay) overlay.remove();
+
+}
+
+}
+
+setInterval(detectDevTools,500);
+
+// =======================
+// DEBUGGER LOOP
+// =======================
+setInterval(function(){
+debugger;
+},100);
+
+})();
+</script>
+
+<style>
+:root{
+ --p:#ff2d9a;
+ --u:#8b5cff;
+ --bg:#05050a;
+ --card:#12121c;
+ --glow:0 0 18px rgba(255,45,154,.6);
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:system-ui,Segoe UI;
+ background:var(--bg);
+ color:#fff;
+ overflow-x:hidden;
+}
+
+/* ===== LOGO ===== */
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-weight:900;
+ font-size:18px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ cursor:pointer;
+}
+.brand svg{
+ width:26px;height:26px;
+ filter:drop-shadow(0 0 12px rgba(255,45,154,.6));
+ animation:pulse 3s infinite;
+ transition:.4s;
+}
+.brand:hover svg{
+ filter:
+  drop-shadow(0 0 10px #ff0080)
+  drop-shadow(0 0 20px #00e0ff)
+  drop-shadow(0 0 30px #7fff00);
+ transform:rotate(-6deg) scale(1.05);
+}
+
+/* PULSE */
+@keyframes pulse{
+ 0%,100%{filter:drop-shadow(0 0 10px rgba(255,45,154,.5))}
+ 50%{filter:drop-shadow(0 0 24px rgba(139,92,255,.9))}
+}
+
+/* HEADER */
+header{
+ position:fixed;
+ top:0;left:0;right:0;
+ padding:14px 20px;
+ background:rgba(10,10,18,.75);
+ backdrop-filter:blur(12px);
+ display:flex;
+ justify-content:space-between;
+ z-index:9;
+}
+nav a{
+ color:#fff;
+ margin-left:16px;
+ text-decoration:none;
+ font-size:14px;
+}
+
+/* HERO */
+.hero{
+ padding:140px 20px 80px;
+ text-align:center;
+}
+.hero h1{
+ font-size:36px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ text-shadow:var(--glow);
+}
+.hero p{
+ color:#ccc;
+ max-width:520px;
+ margin:10px auto 0;
+}
+.hero a{
+ display:inline-block;
+ margin-top:26px;
+ padding:14px 30px;
+ border-radius:999px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ color:#fff;
+ text-decoration:none;
+ box-shadow:var(--glow);
+}
+
+/* STATS */
+.stats{
+ margin:80px 20px;
+ padding:30px;
+ border-radius:26px;
+ background:linear-gradient(135deg,#2a1030,#130916);
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:24px;
+ box-shadow:var(--glow);
+}
+.stats h2{
+ margin:0;
+ font-size:30px;
+ color:var(--p);
+}
+.stats p{
+ margin:4px 0 0;
+ color:#ccc;
+ font-size:14px;
+}
+
+/* WHY */
+.why{
+ padding:60px 20px 80px;
+ text-align:center;
+}
+.why h2{
+ font-size:28px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+.why .sub{
+ max-width:520px;
+ margin:10px auto 40px;
+ color:#aaa;
+ font-size:14px;
+}
+.why-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:22px;
+ margin-top:30px;
+}
+
+.why-card{
+ background:#0b0b0f;
+ border:1px solid rgba(255,255,255,.06);
+ border-radius:20px;
+ padding:28px 22px;
+ transition:.35s;
+}
+.why-card:hover{
+ transform:translateY(-6px) scale(1.02);
+ border-color:#ff2d9a;
+ box-shadow:0 0 25px rgba(255,45,154,.25);
+}
+
+.why-icon-wrap{
+ width:58px;height:58px;
+ margin:0 auto 14px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:radial-gradient(circle at top,#ff2d9a,#8b5cff);
+ box-shadow:0 0 14px rgba(255,45,154,.6);
+}
+.why-icon-wrap svg{width:26px;height:26px;fill:#fff}
+
+.why-card h3{margin:12px 0 6px}
+.why-card p{font-size:14px;color:#b8b8c6}
+
+/* FOOTER */
+footer{
+ background:#0b0b14;
+ padding:50px 20px 30px;
+ text-align:center;
+ border-top:1px solid rgba(255,255,255,.1);
+}
+footer p{color:#aaa;font-size:14px}
+footer a{color:#fff;text-decoration:none;margin:0 10px;font-size:14px}
+footer small{display:block;margin-top:18px;color:#666;font-size:12px}
+
+/* REVEAL */
+.reveal{
+ opacity:0;
+ transform:translateY(40px);
+ transition:1s;
+}
+.reveal.active{
+ opacity:1;
+ transform:none;
+}
+/* ===== DISCORD SECTION ===== */
+.discord-join{
+ padding:100px 20px;
+ background:radial-gradient(circle at top,#0e0e18,#05050a);
+}
+
+.discord-box{
+ max-width:900px;
+ margin:auto;
+ display:flex;
+ gap:40px;
+ align-items:center;
+ background:linear-gradient(180deg,#0b0b0f,#111120);
+ border-radius:28px;
+ padding:45px;
+ border:1px solid rgba(255,255,255,.08);
+ box-shadow:0 0 45px rgba(114,137,218,.25);
+ transition:.4s;
+}
+
+.discord-box:hover{
+ transform:translateY(-6px);
+ box-shadow:0 0 60px rgba(114,137,218,.5);
+}
+
+/* ICON CIRCLE */
+.discord-left{
+ width:100px;
+ height:100px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(135deg,#5865f2,#8b5cff);
+ box-shadow:0 0 35px rgba(114,137,218,.6);
+ animation:float 4s ease-in-out infinite;
+}
+
+.discord-icon{
+ width:50px;
+ height:50px;
+ fill:#fff;
+}
+
+/* FLOAT ANIMATION */
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-8px)}
+}
+
+/* TEXT */
+.discord-right h2{
+ font-size:28px;
+ margin-bottom:8px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.discord-right .desc{
+ color:#aaa;
+ margin-bottom:20px;
+}
+
+/* LIST */
+.discord-list{
+ list-style:none;
+ padding:0;
+ margin-bottom:24px;
+}
+
+.discord-list li{
+ margin-bottom:10px;
+ color:#ccc;
+ font-size:14px;
+ position:relative;
+ padding-left:20px;
+}
+
+.discord-list li::before{
+ content:"✓";
+ position:absolute;
+ left:0;
+ color:#8b5cff;
+ font-weight:bold;
+}
+
+/* BUTTON */
+.discord-btn{
+ display:inline-block;
+ padding:14px 28px;
+ border-radius:40px;
+ background:linear-gradient(90deg,#5865f2,#8b5cff);
+ color:#fff;
+ font-weight:700;
+ text-decoration:none;
+ box-shadow:0 0 25px rgba(114,137,218,.6);
+ transition:.3s;
+}
+
+.discord-btn:hover{
+ transform:translateY(-3px);
+ box-shadow:0 0 45px rgba(114,137,218,.9);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+ .discord-box{
+  flex-direction:column;
+  text-align:center;
+ }
+}
+
+.discord-stats{
+ display:flex;
+ gap:30px;
+ margin-bottom:20px;
+}
+
+.stat span{
+ font-size:28px;
+ font-weight:700;
+ background:linear-gradient(90deg,#8b5cff,#ff4ecd);
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.stat label{
+ display:block;
+ font-size:13px;
+ color:#888;
+}
+
+/* ===== PANEL SLIDER ===== */
+.panel-preview{
+ padding:100px 20px;
+ background:radial-gradient(circle at top,#0e0e18,#05050a);
+ text-align:center;
+}
+
+.panel-preview h2{
+ font-size:30px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.panel-preview p{
+ color:#aaa;
+ max-width:520px;
+ margin:10px auto 50px;
+ font-size:14px;
+}
+
+.panel-slider{
+ max-width:1000px;
+ margin:auto;
+ position:relative;
+}
+
+.panel-slide{
+ display:none;
+ animation:fade .8s;
+}
+
+.panel-slide.active{display:block}
+
+@keyframes fade{
+ from{opacity:0;transform:scale(.97)}
+ to{opacity:1;transform:none}
+}
+
+/* ===== MOCKUP ===== */
+.panel-mockup{
+ position:relative;
+ display:flex;
+ justify-content:center;
+ align-items:flex-end;
+ gap:30px;
+ margin-bottom:26px;
+}
+
+.laptop{
+ width:520px;
+ border-radius:18px;
+ padding:14px;
+ background:#0b0b0f;
+ box-shadow:0 0 45px rgba(255,45,154,.25);
+ cursor:pointer;
+}
+
+.laptop img{
+ width:100%;
+ border-radius:12px;
+}
+
+.phone{
+ width:140px;
+ border-radius:22px;
+ padding:8px;
+ background:#000;
+ box-shadow:0 0 30px rgba(139,92,255,.35);
+ position:absolute;
+ right:16%;
+ bottom:-20px;
+ cursor:pointer;
+}
+
+.phone img{
+ width:100%;
+ border-radius:16px;
+}
+
+/* TEXT */
+.panel-slide h3{margin:10px 0 4px}
+.panel-slide span{font-size:14px;color:#bbb}
+
+/* DOTS */
+.panel-dots{
+ margin-top:22px;
+ display:flex;
+ justify-content:center;
+ gap:10px;
+}
+.panel-dots span{
+ width:10px;height:10px;
+ border-radius:50%;
+ background:#333;
+ cursor:pointer;
+ transition:.3s;
+}
+.panel-dots span.active{
+ background:linear-gradient(90deg,var(--p),var(--u));
+ box-shadow:0 0 10px rgba(255,45,154,.8);
+}
+
+/* ===== LIGHTBOX ===== */
+.panel-lightbox{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.9);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ z-index:9999;
+}
+
+.panel-lightbox img{
+ max-width:92%;
+ max-height:92%;
+ border-radius:14px;
+ box-shadow:0 0 40px rgba(255,45,154,.6);
+}
+
+.panel-lightbox .close{
+ position:absolute;
+ top:20px;
+ right:26px;
+ font-size:34px;
+ color:#fff;
+ cursor:pointer;
+}
+
+/* ================= WHY SECTION ================= */
+
+.why{
+ padding:80px 20px;
+ text-align:center;
+}
+
+.why h2{
+ font-size:28px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.why .sub{
+ max-width:520px;
+ margin:10px auto 40px;
+ color:#aaa;
+ font-size:14px;
+}
+
+.why-grid{
+ max-width:1200px;
+ margin:auto;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+ gap:24px;
+}
+
+/* CARD */
+.why-card{
+ background:#0b0b0f;
+ border:1px solid rgba(255,255,255,.06);
+ border-radius:20px;
+ padding:28px 22px;
+ transition:.35s;
+}
+
+.why-card:hover{
+ transform:translateY(-6px) scale(1.02);
+ border-color:var(--p);
+ box-shadow:0 0 25px rgba(255,45,154,.25);
+}
+
+.why-icon-wrap{
+ width:58px;
+ height:58px;
+ margin:0 auto 14px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:radial-gradient(circle at top,var(--p),var(--u));
+ box-shadow:0 0 14px rgba(255,45,154,.6);
+}
+
+.why-icon-wrap svg{
+ width:26px;
+ height:26px;
+ fill:#fff;
+}
+
+.why-card h3{
+ margin:12px 0 6px;
+}
+
+.why-card p{
+ font-size:14px;
+ color:#b8b8c6;
+}
+
+/* ================= REVEAL ================= */
+
+.reveal{
+ opacity:0;
+ transform:translateY(40px);
+ transition:0.9s cubic-bezier(.19,1,.22,1);
+}
+
+.reveal.active{
+ opacity:1;
+ transform:none;
+}
+
+/* HAMBURGER */
+.hamburger{
+ display:none;
+ flex-direction:column;
+ cursor:pointer;
+ gap:5px;
+}
+
+.hamburger span{
+ width:26px;
+ height:3px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ border-radius:2px;
+ transition:.3s;
+}
+
+/* MOBILE NAV */
+@media(max-width:768px){
+
+ nav{
+  position:fixed;
+  top:64px;
+  right:-100%;
+  background:#0b0b14;
+  width:220px;
+  height:100vh;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  transition:.4s;
+ }
+
+ nav.active{
+  right:0;
+ }
+
+ .hamburger{
+  display:flex;
+ }
+
+}
+
+.hamburger.active span:nth-child(1){
+ transform:rotate(45deg) translateY(8px);
+}
+
+.hamburger.active span:nth-child(2){
+ opacity:0;
+}
+
+.hamburger.active span:nth-child(3){
+ transform:rotate(-45deg) translateY(-8px);
+}
+
+/* ================= NAV LINK UPDATE ================= */
+
+#nav{
+  background:rgba(10,10,18,.8);
+  backdrop-filter:blur(12px);
+  border-radius:14px;
+  padding:10px 18px;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
+  position:relative;
+  overflow:hidden;
+}
+
+.nav-link::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,var(--p),var(--u));
+  opacity:0;
+  transition:.3s;
+  z-index:-1;
+}
+
+.nav-link:hover::before{
+  opacity:.15;
+}
+
+.nav-link:hover{
+  color:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 0 15px rgba(255,45,154,.4);
+}
+
+/* ICON */
+.nav-icon{
+  width:18px;
+  height:18px;
+  fill:currentColor;
+  transition:.3s;
+  filter:drop-shadow(0 0 8px rgba(255,45,154,.6));
+}
+
+.nav-link:hover .nav-icon{
+  transform:scale(1.15) rotate(-5deg);
+  filter:
+    drop-shadow(0 0 10px #ff2d9a)
+    drop-shadow(0 0 20px #8b5cff);
+}
+
+.footer-links{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+.footer-links a{
+  color:#ccc;
+  text-decoration:none;
+  font-size:14px;
+  position:relative;
+  transition:.3s;
+}
+
+.footer-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg,#ff2d9a,#8b5cff);
+  transition:.3s;
+}
+
+.footer-links a:hover{
+  color:#fff;
+}
+
+.footer-links a:hover::after{
+  width:100%;
+}
+</style>
+</head>
+
+<body oncontextmenu="return false">
+
+<!-- SVG LOGO DEF -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+ <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0%" stop-color="#ff2d9a"/>
+  <stop offset="100%" stop-color="#8b5cff"/>
+ </linearGradient>
+</defs>
+</svg>
+
+<header>
+
+  <div class="brand">
+  <svg viewBox="0 0 24 24">
+   <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="url(#logoGrad)"/>
+  </svg>
+  AHMAD STORE
+ </div>
+
+  <!-- HAMBURGER -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav id="nav">
+
+  <a href="spec.html" class="nav-link">
+    <!-- SVG Server Icon -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" 
+         xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+      <rect x="3" y="4" width="18" height="6" rx="2" fill="currentColor"/>
+      <rect x="3" y="14" width="18" height="6" rx="2" fill="currentColor"/>
+      <circle cx="7" cy="7" r="1" fill="#fff"/>
+      <circle cx="7" cy="17" r="1" fill="#fff"/>
+    </svg>
+    Spec Hosting
+  </a>
+
+  <a href="kontak.html" class="nav-link">
+    <!-- SVG Contact Icon -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" 
+         xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+      <path d="M4 4h16v12H5.2L4 17.2V4z" fill="currentColor"/>
+      <path d="M4 4l8 6 8-6" stroke="#fff" stroke-width="1.5"/>
+    </svg>
+    Kontak
+  </a>
+  
+  <a href="panel.html" class="nav-link">
+  <!-- SVG Panel Icon -->
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" 
+       xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+    <rect x="3" y="3" width="8" height="8" rx="2" fill="currentColor"/>
+    <rect x="13" y="3" width="8" height="5" rx="2" fill="currentColor"/>
+    <rect x="13" y="10" width="8" height="11" rx="2" fill="currentColor"/>
+    <rect x="3" y="13" width="8" height="8" rx="2" fill="currentColor"/>
+  </svg>
+  Panel Hosting
+</a>
+</nav>
+</header>
+
+<section class="hero reveal">
+ <h1>Hosting SA-MP Roleplay</h1>
+ <p>Ahmad Store menyediakan hosting enterprise-grade, solusi Discord, produk digital, dan layanan web profesional dengan dukungan 24/7.</p>
+ <a href="produk.html">Explore Hosting</a>
+</section>
+
+<section class="stats reveal">
+ <div><h2 data-count="2500">0</h2><p>Pelanggan Bahagia</p></div>
+ <div><h2 data-count="99.9">0</h2><p>Garansi Uptime</p></div>
+ <div><h2 data-count="24">0</h2><p>Dukungan 24/7</p></div>
+ <div><h2 data-count="50">0</h2><p>Produk Premium</p></div>
+</section>
+
+<section class="why reveal">
+ <h2>Mengapa Memilih Ahmad Store</h2>
+ <p class="sub">Layanan enterprise-grade dengan dukungan terbaik</p>
+
+<section class="why-section">
+
+  <div class="why-container">
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+        </svg>
+      </div>
+      <h3>DDoS Protection</h3>
+      <p>Perlindungan DDoS 24/7 dengan mitigasi otomatis hingga <b>1Tbps</b>. Server selalu aman.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M13 2L3 14h7l-1 8 10-12h-7z"/>
+        </svg>
+      </div>
+      <h3>Performa Tinggi</h3>
+      <p>SSD NVMe + jaringan low latency untuk performa maksimal tanpa lag.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2a6 6 0 016 6v2h2a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2h2V8a6 6 0 016-6z"/>
+        </svg>
+      </div>
+      <h3>Support 24/7</h3>
+      <p>Tim support profesional siap membantu kapan saja. Response <b>&lt; 5 menit</b>.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 6v6l4 2M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+        </svg>
+      </div>
+      <h3>Control Panel</h3>
+      <p>Panel modern & intuitif untuk kelola server dengan mudah.</p>
+    </div>
+  </div>
+</section>
+
+<section class="panel-preview reveal">
+  <h2>Panel Hosting Modern</h2>
+  <p>Kelola server lewat panel profesional dengan tampilan modern & responsif.</p>
+
+<!-- LIGHTBOX -->
+<div class="panel-lightbox" id="panelLightbox">
+  <span class="close">&times;</span>
+  <img id="lightboxImg">
+</div>
+
+<footer class="reveal">
+ <div class="brand" style="justify-content:center">
+  <svg viewBox="0 0 24 24">
+   <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="url(#logoGrad)"/>
+  </svg>
+  AHMAD STORE
+ </div>
+
+ <p>Hosting & Digital Solution Premium</p>
+
+ <!-- MENU TAMBAHAN -->
+ <div class="footer-links">
+  <a href="privacy.html">Privacy</a>
+  <a href="terms.html">Terms</a>
+  <a href="about.html">About</a>
+  <a href="kontak.html">Contact</a>
+</div>
+ 
+<footer class="reveal">
+  <small>© 2026 Ahmad Store</small>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* =========================
+     PANEL SLIDER
+  ========================== */
+  const slides = document.querySelectorAll(".panel-slide");
+  const dotsWrap = document.querySelector(".panel-dots");
+
+  let currentIndex = 0;
+  let sliderTimer;
+
+  if (slides.length > 1 && dotsWrap) {
+
+    // CREATE DOTS
+    slides.forEach((_, i) => {
+      const dot = document.createElement("span");
+      if (i === 0) dot.classList.add("active");
+
+      dot.addEventListener("click", () => {
+        showSlide(i);
+        restartSlider();
+      });
+
+      dotsWrap.appendChild(dot);
+    });
+
+    const dots = dotsWrap.querySelectorAll("span");
+
+    // SHOW SLIDE
+    function showSlide(index) {
+      slides[currentIndex].classList.remove("active");
+      dots[currentIndex].classList.remove("active");
+
+      currentIndex = index;
+
+      slides[currentIndex].classList.add("active");
+      dots[currentIndex].classList.add("active");
+    }
+
+    // AUTO SLIDER
+    function startSlider() {
+      sliderTimer = setInterval(() => {
+        showSlide((currentIndex + 1) % slides.length);
+      }, 4500);
+    }
+
+    function restartSlider() {
+      clearInterval(sliderTimer);
+      startSlider();
+    }
+
+    startSlider();
+  }
+
+  /* =========================
+     LIGHTBOX
+  ========================== */
+  const lightbox = document.getElementById("panelLightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+
+  if (lightbox && lightboxImg) {
+
+    document.querySelectorAll(".panel-mockup img").forEach(img => {
+      img.addEventListener("click", () => {
+        lightboxImg.src = img.src;
+        lightbox.style.display = "flex";
+      });
+    });
+
+    const closeLightbox = () => {
+      lightbox.style.display = "none";
+    };
+
+    lightbox.addEventListener("click", closeLightbox);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+  }
+
+  /* =========================
+     COUNTER ANIMATION
+  ========================== */
+  document.querySelectorAll("[data-count]").forEach(el => {
+
+    const observer = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+
+      const target = parseFloat(el.dataset.count);
+      const duration = 1200;
+      const startTime = performance.now();
+
+      function animate(time) {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const value = target * (1 - Math.pow(1 - progress, 3));
+
+        el.textContent = target % 1
+          ? value.toFixed(1)
+          : Math.floor(value);
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          el.textContent = target;
+        }
+      }
+
+      requestAnimationFrame(animate);
+      observer.disconnect();
+
+    }, { threshold: 0.6 });
+
+    observer.observe(el);
+  });
+
+  /* =========================
+     REVEAL ON SCROLL
+  ========================== */
+  document.querySelectorAll(".reveal").forEach(el => {
+
+    const observer = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+
+      el.classList.add("active");
+      observer.disconnect();
+
+    }, { threshold: 0.15 });
+
+    observer.observe(el);
+  });
+
+  /* =========================
+     HAMBURGER MENU
+  ========================== */
+  const hamburger = document.getElementById("hamburger");
+  const nav = document.getElementById("nav");
+
+  if (hamburger && nav) {
+    hamburger.addEventListener("click", () => {
+      nav.classList.toggle("active");
+      hamburger.classList.toggle("active");
+    });
+  }
+
+});
+</script>
+
+</body>
+</html>
