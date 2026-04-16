@@ -497,6 +497,536 @@ footer small{
    drop-shadow(0 0 24px #8b5cff);
  }
 }
+
+/* ================= FITUR ================= */
+
+.fitur{
+  padding:80px 20px;
+  text-align:center;
+}
+
+.fitur h2{
+  font-size:28px;
+  background:linear-gradient(90deg,var(--p),var(--u));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.fitur .sub{
+  color:#aaa;
+  max-width:600px;
+  margin:10px auto 40px;
+  font-size:14px;
+}
+
+/* ===== GRID DEFAULT (HP) ===== */
+.fitur-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+  max-width:1100px;
+  margin:auto;
+}
+
+/* ===== CARD ===== */
+.fitur-card{
+  background:#0b0b0f;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:24px;
+  transition:.35s;
+}
+
+.fitur-card h3{
+  margin:0 0 6px;
+  font-size:16px;
+}
+
+.fitur-card p{
+  font-size:13px;
+  color:#aaa;
+}
+
+.fitur-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 25px rgba(255,45,154,.3);
+  border-color:var(--p);
+}
+
+/* ===== ICON SVG ===== */
+.ficon{
+  width:28px;
+  height:28px;
+  fill:#ff2d9a;
+  margin-bottom:12px;
+  filter:drop-shadow(0 0 6px rgba(255,45,154,.6));
+  transition:.3s;
+}
+
+.fitur-card:hover .ficon{
+  fill:#8b5cff;
+  filter:
+    drop-shadow(0 0 10px #ff2d9a)
+    drop-shadow(0 0 20px #8b5cff);
+  transform:scale(1.15) rotate(-5deg);
+}
+
+/* ================= DESKTOP MODE ================= */
+@media (min-width: 900px){
+  .fitur-grid{
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+}
+
+  .fitur-grid{
+    grid-template-columns: 1fr 1fr !important; /* FIX PAKSA 2 KOLOM */
+    gap:30px;
+  }
+
+.fitur-card{
+  background:#0b0b0f;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:20px;
+  transition:.35s;
+  text-align:left;
+}
+
+  .fitur-card .ficon{
+    margin:0;
+    flex-shrink:0;
+  }
+
+  .fitur-card h3{
+    font-size:18px;
+  }
+
+}
+
+.footer-2{
+  background:#05050a;
+  padding:60px 20px 20px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.footer-container{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:40px;
+}
+
+.footer-brand h2{
+  font-size:20px;
+  margin-bottom:10px;
+}
+
+.footer-brand span{
+  color:#ff2d9a;
+  font-weight:900;
+}
+
+.footer-brand p{
+  color:#aaa;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.footer-container h4{
+  font-size:13px;
+  color:#888;
+  margin-bottom:10px;
+}
+
+.footer-container ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.footer-container li{
+  font-size:13px;
+  margin-bottom:8px;
+  color:#ccc;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.footer-container li:hover{
+  color:#fff;
+}
+
+.social{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+}
+
+.social a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  background:#111;
+  border-radius:8px;
+  color:#fff;
+  text-decoration:none;
+  transition:.3s;
+}
+
+.social a:hover{
+  background:linear-gradient(90deg,#ff2d9a,#8b5cff);
+}
+
+.badge{
+  background:#ff2d9a;
+  color:#fff;
+  font-size:10px;
+  padding:2px 6px;
+  border-radius:6px;
+  margin-left:6px;
+}
+
+.online{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  background:#00ff88;
+  border-radius:50%;
+  margin-left:6px;
+}
+
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  margin-top:40px;
+  padding-top:15px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  font-size:12px;
+  color:#777;
+}
+
+.sicon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  background:#111;
+  border-radius:10px;
+  transition:.3s;
+}
+
+.sicon svg{
+  width:20px;
+  height:20px;
+  fill:#aaa;
+  transition:.3s;
+}
+
+/* HOVER EFFECT */
+.sicon:hover{
+  transform:translateY(-4px) scale(1.05);
+}
+
+/* WARNA BRAND */
+.sicon.discord:hover{
+  background:#5865F2;
+}
+.sicon.tiktok:hover{
+  background:#000;
+}
+.sicon.youtube:hover{
+  background:#FF0000;
+}
+
+/* ICON JADI PUTIH SAAT HOVER */
+.sicon:hover svg{
+  fill:#fff;
+}
+
+.fitur-card{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.fitur-text{
+  display:flex;
+  flex-direction:column;
+}
+
+.ficon{
+  margin-top:3px;
+}
+
+/* Paksa teks turun (wrap) */
+.fitur-text{
+  display:flex;
+  flex-direction:column;
+  max-width:100%;
+}
+
+/* Judul */
+.fitur-text h3{
+  margin:0 0 4px;
+  white-space:normal;
+}
+
+/* Deskripsi */
+.fitur-text p{
+  margin:0;
+  color:#aaa;
+  line-height:1.5;
+  word-break:break-word;
+  white-space:normal;
+}
+
+.fitur-card{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.fitur-text{
+  flex:1; /* Biar teks isi sisa space dan wrap */
+}
+
+.fitur-card{
+  padding:16px 18px;
+}
+
+.fitur-text p{
+  font-size:13px;
+  opacity:.85;
+}
+
+.hero-samp{
+  padding:100px 20px 40px;
+}
+
+.hero-wrap{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:30px;
+}
+
+/* TEXT */
+.hero-text h1{
+  font-size:32px;
+  margin:10px 0;
+}
+
+.hero-text h1 span{
+  color:#ff2d9a;
+}
+
+.hero-text p{
+  color:#aaa;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.hero-top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.back{
+  font-size:13px;
+  color:#aaa;
+  text-decoration:none;
+}
+
+.badge-top{
+  background:#111;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:12px;
+  border:1px solid rgba(255,255,255,.1);
+}
+
+/* FEATURES */
+.hero-features{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:15px;
+}
+
+.hero-features div{
+  background:#0b0b0f;
+  padding:10px;
+  border-radius:10px;
+  font-size:13px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* IMAGE */
+.hero-image{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.hero-image img{
+  width:100%;
+  display:block;
+}
+
+.overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:20px;
+  background:linear-gradient(to top,rgba(0,0,0,.8),transparent);
+}
+
+.overlay h3{
+  margin:0 0 10px;
+}
+
+.overlay button{
+  padding:8px 14px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(90deg,#ff2d9a,#8b5cff);
+  color:#fff;
+  font-size:12px;
+  cursor:pointer;
+}
+
+/* DESKTOP */
+@media (min-width: 900px){
+
+  .hero-wrap{
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+  }
+
+  .hero-text h1{
+    font-size:40px;
+  }
+
+}
+
+.h-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#0b0b0f;
+  padding:10px;
+  border-radius:10px;
+  font-size:13px;
+  border:1px solid rgba(255,255,255,.08);
+  transition:.3s;
+}
+
+.h-item svg{
+  width:18px;
+  height:18px;
+  fill:#ff2d9a;
+  filter:drop-shadow(0 0 6px rgba(255,45,154,.6));
+  transition:.3s;
+}
+
+/* HOVER EFFECT */
+.h-item:hover{
+  transform:translateY(-3px);
+  border-color:#ff2d9a;
+  box-shadow:0 0 15px rgba(255,45,154,.3);
+}
+
+.h-item:hover svg{
+  fill:#8b5cff;
+  filter:
+    drop-shadow(0 0 10px #ff2d9a)
+    drop-shadow(0 0 18px #8b5cff);
+}
+
+/* ================= WHY SECTION ================= */
+
+.why-section{
+  padding:80px 20px;
+}
+
+.why-container{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+}
+
+/* CARD */
+.why-card{
+  background:#0b0b0f;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:22px;
+  transition:.35s;
+  text-align:left;
+}
+
+.why-card:hover{
+  transform:translateY(-6px);
+  border-color:#ff2d9a;
+  box-shadow:0 0 25px rgba(255,45,154,.3);
+}
+
+/* ICON */
+.why-icon-wrap{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:rgba(255,45,154,.1);
+  margin-bottom:12px;
+}
+
+.why-icon-wrap svg{
+  width:22px;
+  height:22px;
+  fill:#ff2d9a;
+  filter:drop-shadow(0 0 6px rgba(255,45,154,.6));
+  transition:.3s;
+}
+
+.why-card:hover svg{
+  fill:#8b5cff;
+  filter:
+    drop-shadow(0 0 10px #ff2d9a)
+    drop-shadow(0 0 18px #8b5cff);
+}
+
+/* TEXT */
+.why-card h3{
+  margin:0 0 6px;
+  font-size:16px;
+}
+
+.why-card p{
+  font-size:13px;
+  color:#aaa;
+  line-height:1.5;
+}
+
+/* DESKTOP */
+@media (min-width: 900px){
+  .why-container{
+    grid-template-columns:1fr 1fr;
+  }
+}
 </style>
 </head>
 
@@ -509,6 +1039,71 @@ footer small{
   <a href="testimoni.html">Testimoni</a>
  </nav>
 </header>
+
+<section class="hero-samp reveal">
+
+  <div class="hero-wrap">
+
+    <!-- TEXT -->
+    <div class="hero-text">
+
+      <div class="hero-top">
+        <span class="badge-top">🎮 Game Server</span>
+      </div>
+
+      <h1>SA:MP <span>Gaming</span> Hosting</h1>
+
+      <p>
+        SA:MP adalah modifikasi dari GTA: San Andreas yang memungkinkan pemain bermain di server komunitas.
+        Kami mendukung ekosistem SA:MP & Open.mp dengan performa tinggi, stabil, dan Anti DDoS.
+      </p>
+
+      <div class="hero-features">
+
+  <div class="h-item">
+    <svg viewBox="0 0 24 24">
+      <path d="M13 2L3 14h7l-1 8 10-12h-7z"/>
+    </svg>
+    INTEL XEON Processors
+  </div>
+
+  <div class="h-item">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+    </svg>
+    DDoS Protection L7
+  </div>
+
+  <div class="h-item">
+    <svg viewBox="0 0 24 24">
+      <path d="M4 4h16v6H4zM4 14h16v6H4z"/>
+    </svg>
+    Massive RAM
+  </div>
+
+  <div class="h-item">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 3a4 4 0 00-4 4v4a4 4 0 008 0V7a4 4 0 00-4-4zm-6 8a6 6 0 0012 0h2a8 8 0 01-6 7v3h-2v-3a8 8 0 01-6-7h2z"/>
+    </svg>
+    Voice Support
+  </div>
+
+</div>
+
+    </div>
+
+    <!-- IMAGE -->
+    <div class="hero-image">
+      <img src="gta-samp.jpg" alt="SAMP Server">
+      <div class="overlay">
+        <h3>SA:MP SERVER HOSTING</h3>
+        <span class="badge-top">MULTIPLAYER - JOIN NOW!</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>
 
 <div class="page-title reveal">
  <h1>Paket Hosting SA-MP</h1>
@@ -842,10 +1437,171 @@ Cloud
 </div>
 </section>
 
-<footer class="reveal">
- <div class="f-logo">AHMAD STORE</div>
- <p>Hosting SA-MP Murah Stabil Anti Lag</p>
- <small>© 2026 Ahmad Store</small>
+<section class="why-section">
+
+  <div class="why-container">
+
+    <!-- ITEM -->
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 4h16v6H4zM4 14h16v6H4z"/>
+        </svg>
+      </div>
+      <h3>Database Online</h3>
+      <p>Akses penuh MySQL berbasis online dengan PhpMyAdmin interaktif untuk penyimpanan data player (akun, inventory).</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2a7 7 0 00-7 7v4H3l3 3 3-3H7V9a5 5 0 1110 0v1h2V9a7 7 0 00-7-7z"/>
+        </svg>
+      </div>
+      <h3>Bot Monitoring</h3>
+      <p>Pantau terus uptime dan stats server secara online menggunakan bot monitoring Discord dengan akurasi live.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 4h16v12H4zM2 20h20v-2H2z"/>
+        </svg>
+      </div>
+      <h3>FTP / SFTP</h3>
+      <p>Kelola ribuan file .pwn dan .amx mutlak menggunakan FileZilla atau WinSCP dengan protokol sangat cepat.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2v6l4-4-4 8-4-8 4 4zM4 14h16v6H4z"/>
+        </svg>
+      </div>
+      <h3>Auto Backup</h3>
+      <p>Sistem kami mencadangkan Database SQL Anda secara otomatis setiap hari untuk redundansi.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M8 3h8l4 4v14H4V3z"/>
+        </svg>
+      </div>
+      <h3>Plugins .SO</h3>
+      <p>Integrasi plugins .so linux eksternal (streamer, sscanf, discord-connector) didukung aman secara native.</p>
+    </div>
+    
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3a4 4 0 00-4 4v4a4 4 0 008 0V7a4 4 0 00-4-4zm-6 8a6 6 0 0012 0h2a8 8 0 01-6 7v3h-2v-3a8 8 0 01-6-7h2z"/>
+        </svg>
+      </div>
+      <h3>SAMP Voice</h3>
+      <p>Koneksi in-game semakin hidup dengan SampVoice yang terdukung penuh via network latensi rendah.</p>
+    </div>
+    
+        <div class="why-card reveal">
+      <div class="why-icon-wrap">
+        <svg viewBox="0 0 24 24" class="ficon">
+          <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+         </svg>
+      </div>
+      <h3>Anti DDoS</h3>
+      <p>Network lalu lintas server disaring oleh scrub layer hingga kapasitas mutlak L4 / L7 Anti-DDoS Mitigation.</p>
+    </div>
+    
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">
+  <svg viewBox="0 0 24 24" class="ficon">
+    <path d="M3 4h18v12H3zM2 20h20v-2H2z"/>
+  </svg>
+  </div>
+  <h3>Control Panel</h3>
+  <p>Nikmati dashboard server yang responsif, web admin modern, file manager, port allocation dengan Pterodactyl.</p>
+</div>
+
+  </div>
+
+</section>
+
+<footer class="footer-2">
+
+  <div class="footer-container">
+
+    <!-- BRAND -->
+    <div class="footer-brand">
+      <h2><span>AS</span> Ahmad Store</h2>
+      <p>
+        Hosting SA-MP premium dengan performa tinggi dan proteksi Anti DDoS.
+        Cocok untuk komunitas Indonesia & Asia.
+      </p>
+
+      <div class="social">
+
+  <!-- Discord -->
+  <a href="#" class="sicon discord">
+    <svg viewBox="0 0 24 24">
+      <path d="M20 4a16 16 0 00-4-1l-.2.4a14 14 0 00-3.6 0L12 3a16 16 0 00-4 1C5 8 4 12 4 12s2 4 6 4a5 5 0 004-2 5 5 0 004 2c4 0 6-4 6-4s-1-4-4-8zM9.5 13a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
+    </svg>
+  </a>
+
+  <!-- TikTok -->
+  <a href="#" class="sicon tiktok">
+    <svg viewBox="0 0 24 24">
+      <path d="M16 3c.5 2 2 3.5 4 4v3c-1.5 0-3-.5-4-1v6a5 5 0 11-5-5c.3 0 .7 0 1 .1v3a2 2 0 102 2V3h2z"/>
+    </svg>
+  </a>
+
+  <!-- YouTube -->
+  <a href="#" class="sicon youtube">
+    <svg viewBox="0 0 24 24">
+      <path d="M23 12s0-3-1-4a4 4 0 00-3-3C16 4 12 4 12 4s-4 0-7 1a4 4 0 00-3 3c-1 1-1 4-1 4s0 3 1 4a4 4 0 003 3c3 1 7 1 7 1s4 0 7-1a4 4 0 003-3c1-1 1-4 1-4zM10 15V9l5 3-5 3z"/>
+    </svg>
+  </a>
+
+</div>
+
+    <!-- PRODUCTS -->
+    <div>
+      <h4>PRODUCTS</h4>
+      <ul>
+        <li>SA-MP Hosting <span class="badge">Popular</span></li>
+        <li>Bot Hosting</li>
+        <li>Open.MP Hosting</li>
+      </ul>
+    </div>
+
+    <!-- COMPANY -->
+    <div>
+      <h4>COMPANY</h4>
+      <ul>
+        <li>About Us</li>
+        <li>Contact</li>
+        <li>Terms of Service</li>
+        <li>Privacy Policy</li>
+      </ul>
+    </div>
+
+    <!-- SUPPORT -->
+    <div>
+      <h4>SUPPORT</h4>
+      <ul>
+        <li>Knowledge Base</li>
+        <li>Discord Server</li>
+        <li>Billing Portal</li>
+        <li>System Status <span class="online"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="footer-bottom">
+    <p>© 2026 Ahmad Store. All rights reserved.</p>
+    <p>SA-MP & GTA adalah trademark dari pemilik masing-masing.</p>
+  </div>
+
 </footer>
 
 <script>
