@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anti DDoS - Ahmad Store</title>
+
+<!-- FAVICON & PWA -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="description" content="Ahmad Store menyediakan proteksi Anti DDoS Layer 3/4 & 7 dengan sistem filtering cerdas, melindungi server dari serangan bot, UDP flood, dan HTTP attack. Performa stabil dan keamanan maksimal.">
+<meta name="keywords" content="Anti DDoS Indonesia, DDoS Protection, Hosting Anti DDoS, SA-MP Anti DDoS, Firewall L7, Proteksi Server, Ahmad Store">
+<meta name="author" content="Ahmad Store">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#ff2d9a">
+
+<script>
+(function(){
+
+// =======================
+// BLOKIR SHORTCUT
+// =======================
+document.addEventListener("keydown",function(e){
+
+let key = e.key.toUpperCase();
+
+if(
+key === "F12" ||
+(e.ctrlKey && e.shiftKey && ["I","J","C","K"].includes(key)) ||
+(e.ctrlKey && ["U","S","P"].includes(key))
+){
+e.preventDefault();
+return false;
+}
+
+});
+
+// =======================
+// BLOKIR KLIK KANAN
+// =======================
+document.addEventListener("contextmenu",function(e){
+e.preventDefault();
+});
+
+// =======================
+// BLOKIR COPY / SELECT
+// =======================
+["copy","cut","paste","selectstart","dragstart"].forEach(function(evt){
+document.addEventListener(evt,function(e){
+e.preventDefault();
+});
+});
+
+// =======================
+// CSS PROTECTION
+// =======================
+let style = document.createElement("style");
+
+style.innerHTML = `
+*{
+user-select:none !important;
+-webkit-user-select:none !important;
+}
+
+img{
+pointer-events:none !important;
+-webkit-user-drag:none !important;
+}
+`;
+
+document.head.appendChild(style);
+
+// =======================
+// MATIKAN CONSOLE
+// =======================
+(function(){
+let noop=function(){};
+["log","warn","error","info","debug","table","trace","clear"]
+.forEach(function(m){
+console[m]=noop;
+});
+})();
+
+// =======================
+// DETEKSI DEVTOOLS
+// =======================
+let devtoolsOpen=false;
+
+function detectDevTools(){
+
+let width=window.outerWidth-window.innerWidth;
+let height=window.outerHeight-window.innerHeight;
+
+if(width>160 || height>160){
+
+if(!devtoolsOpen){
+
+devtoolsOpen=true;
+
+// blur halaman
+document.body.style.filter="blur(8px)";
+
+// overlay
+let overlay=document.createElement("div");
+overlay.id="devtools-block";
+
+overlay.style=`
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999999;
+font-family:sans-serif;
+text-align:center;
+padding:40px
+`;
+
+overlay.innerHTML=`
+<div style="font-size:60px"></div>
+<h2 style="color:#ff4444;margin:10px 0">Akses Ditolak</h2>
+<p style="opacity:.8">Developer Tools terdeteksi.<br>Tutup DevTools untuk melanjutkan.</p>
+`;
+
+document.body.appendChild(overlay);
+
+// redirect otomatis
+setTimeout(function(){
+location.href="https://google.com";
+},5000);
+
+}
+
+}else{
+
+devtoolsOpen=false;
+
+document.body.style.filter="";
+
+let overlay=document.getElementById("devtools-block");
+if(overlay) overlay.remove();
+
+}
+
+}
+
+setInterval(detectDevTools,500);
+
+// =======================
+// DEBUGGER LOOP
+// =======================
+setInterval(function(){
+debugger;
+},100);
+
+})();
+</script>
+
+<style>
+:root{
+  --p:#ff2d9a; /* pink */
+  --u:#8b5cff; /* ungu */
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+body{
+  background:#05050a;
+  color:#fff;
+}
+
+/* NAV */
+.nav{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 20px;
+  background:#07070c;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.logo span{
+  color:#8b5cff;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:80px 20px 30px;
+}
+
+.badge{
+  display:inline-block;
+  background:#111;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:12px;
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.hero h1{
+  font-size:32px;
+  margin-top:15px;
+}
+
+.hero span{
+  background:linear-gradient(90deg,var(--p),var(--u));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+  color:#aaa;
+  margin-top:10px;
+}
+
+/* BOX */
+.ddos-box{
+  max-width:1000px;
+  margin:40px auto;
+  background:#0b0b0f;
+  padding:20px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* TOGGLE */
+.toggle{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.toggle button{
+  flex:1;
+  padding:8px;
+  border-radius:999px;
+  border:none;
+  background:#111;
+  color:#aaa;
+  cursor:pointer;
+}
+
+.toggle .active{
+  background:linear-gradient(90deg,var(--p),var(--u));
+  color:#fff;
+}
+
+/* AREA */
+.ddos-inner{
+  position:relative;
+  height:180px;
+  background:#07070c;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+/* LINE */
+.line{
+  position:absolute;
+  left:50%;
+  width:3px;
+  height:100%;
+  background:var(--u);
+  box-shadow:0 0 20px var(--u);
+}
+
+/* DOT */
+.dot{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  animation:move linear infinite;
+}
+
+.dot.green{
+  background:#00ff88;
+  box-shadow:0 0 10px #00ff88;
+}
+
+.dot.red{
+  background:#ff3b3b;
+  box-shadow:0 0 10px #ff3b3b;
+}
+
+@keyframes move{
+  from{ left:0 }
+  to{ left:100% }
+}
+
+/* LEGEND */
+.legend{
+  margin-top:10px;
+  font-size:12px;
+  color:#aaa;
+}
+
+.legend span{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  margin:0 6px;
+}
+
+.green{ background:#00ff88; }
+.red{ background:#ff3b3b; }
+
+/* SECTION */
+.section{
+  text-align:center;
+  padding:60px 20px;
+}
+
+.section h2{
+  font-size:24px;
+}
+
+.section p{
+  color:#aaa;
+  max-width:600px;
+  margin:10px auto 40px;
+}
+
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.card{
+  background:#0b0b0f;
+  padding:20px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.08);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:var(--p);
+  box-shadow:0 0 20px rgba(255,45,154,.3);
+}
+
+/* ICON */
+.icon{
+  width:40px;
+  height:40px;
+  background:rgba(255,45,154,.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+.icon svg{
+  width:20px;
+  height:20px;
+  fill:var(--p);
+  filter:drop-shadow(0 0 6px rgba(255,45,154,.6));
+}
+
+.card h3{
+  margin-bottom:6px;
+}
+
+.card p{
+  color:#aaa;
+  font-size:13px;
+}
+
+/* DESKTOP */
+@media (min-width:900px){
+  .cards{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .hero h1{
+    font-size:40px;
+  }
+}
+
+canvas{
+  width:100%;
+  margin-top:15px;
+  background:#07070c;
+  border-radius:10px;
+}
+
+.ddos-box{
+  box-shadow:
+    0 0 40px rgba(255,45,154,.15),
+    0 0 80px rgba(139,92,255,.08);
+}
+</style>
+</head>
+
+<body>
+
+<div class="nav">
+  <div class="logo">AS <span>Ahmad Store</span></div>
+</div>
+
+<section class="hero">
+  <div class="badge">Advanced Layer 3/4 & 7 Protection</div>
+  <h1>Infrastruktur Kebal <span>DDoS</span></h1>
+  <p>AhmadStore dilengkapi dengan sistem filtering cerdas yang secara presisi membedakan pemain/pengunjung asli dari trafik serangan botnet jahat dalam hitungan milidetik.</p>
+</section>
+
+<div class="ddos-box">
+
+  <div class="toggle">
+    <button id="normalBtn" class="active">Normal</button>
+    <button id="attackBtn">Diserang</button>
+  </div>
+
+  <div class="ddos-inner" id="area">
+    <div class="line"></div>
+  </div>
+  
+  <canvas id="chart" height="80"></canvas>
+  <div class="legend">
+    <span class="green"></span> Trafik Asli (Pemain)
+    <span class="red"></span> Serangan DDoS
+  </div>
+
+</div>
+
+<section class="section">
+  <h2>Mekanisme Proteksi Maksimal</h2>
+  <p>Sistem kami memastikan serangan dihentikan sebelum mencapai server Anda.</p>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M13 2L3 14h7l-1 8 10-12h-7z"/>
+        </svg>
+      </div>
+      <h3>Layer 3 & 4 Firewall</h3>
+      <p>Mampu menahan volumetrik gigantis seperti UDP Flood, SYN Flood, dan Amplification Attack (NTP/DNS). Trafik brute-force akan diserap secara kolektif oleh scrubbing center gigabit.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2l8 4v6c0 5-3.5 9.7-8 10-4.5-.3-8-5-8-10V6l8-4z"/>
+        </svg>
+      </div>
+      <h3>Layer 7 HTTP</h3>
+      <p>Melindungi web API, cPanel, dan portal Anda dari HTTP GET/POST Flood. Modul pintar Imunify360 mendeteksi perilaku bot abnormal dan memberi bad-actors blokade / limitasi seketika.</p>
+    </div>
+
+    <div class="card">
+  <div class="icon">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+      </div>
+      <h3>Zero-Day Mitigation</h3>
+      <p>Menggunakan machine learning dan deteksi pola anomali untuk menangkis metode serangan baru dalam milidetik. Pemain di server SA:MP Anda bahkan tidak akan menyadari adanya serangan di belakang layar.</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+
+const area = document.getElementById("area");
+const normalBtn = document.getElementById("normalBtn");
+const attackBtn = document.getElementById("attackBtn");
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+
+let mode = "normal";
+let data = [];
+
+/* ===== CREATE DOT ===== */
+function createDot(type){
+  const dot = document.createElement("div");
+  dot.classList.add("dot", type);
+
+  let top = Math.random()*160;
+  dot.style.top = top + "px";
+
+  let duration = 2 + Math.random()*2;
+  dot.style.animation = `move ${duration}s linear forwards`;
+
+  area.appendChild(dot);
+
+  /* DETEKSI SAAT SAMPAI TENGAH */
+  setTimeout(()=>{
+    blockDot(dot, type);
+  }, duration*500); // setengah jalan (ke tengah)
+
+}
+
+/* ===== BLOCK DI FIREWALL ===== */
+function blockDot(dot, type){
+
+  if(mode === "attack" && type === "red"){
+    explode(dot); // 💥 ledakan
+    dot.remove();
+    return;
+  }
+
+  // traffic normal lanjut
+  setTimeout(()=> dot.remove(), 2000);
+}
+
+/* ===== EFEK LEDAKAN ===== */
+function explode(dot){
+  for(let i=0;i<6;i++){
+    const spark = document.createElement("div");
+    spark.style.position="absolute";
+    spark.style.width="3px";
+    spark.style.height="3px";
+    spark.style.background = "#ff2d9a";
+    spark.style.left=dot.style.left;
+    spark.style.top=dot.style.top;
+    spark.style.borderRadius="50%";
+
+    area.appendChild(spark);
+
+    let angle = Math.random()*360;
+    let dist = 20 + Math.random()*20;
+
+    spark.animate([
+      { transform:"translate(0,0)", opacity:1 },
+      { transform:`translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px)`, opacity:0 }
+    ],{
+      duration:400
+    });
+
+    setTimeout(()=>spark.remove(),400);
+  }
+}
+
+/* ===== LOOP TRAFFIC ===== */
+setInterval(()=>{
+  if(mode==="normal"){
+    createDot("green");
+  }else{
+    createDot("green");
+    createDot("red");
+    createDot("red");
+  }
+},250);
+
+/* ===== TOGGLE ===== */
+normalBtn.onclick=()=>{
+  mode="normal";
+  normalBtn.classList.add("active");
+  attackBtn.classList.remove("active");
+};
+
+attackBtn.onclick=()=>{
+  mode="attack";
+  attackBtn.classList.add("active");
+  normalBtn.classList.remove("active");
+};
+
+/* ===== GRAFIK REALTIME ===== */
+function updateChart(){
+
+  let value = mode === "normal"
+    ? Math.random()*30
+    : 50 + Math.random()*50;
+
+  data.push(value);
+  if(data.length > 40) data.shift();
+
+  drawChart();
+}
+
+function drawChart(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.beginPath();
+
+  data.forEach((v,i)=>{
+    let x = i * (canvas.width / 40);
+    let y = canvas.height - v;
+
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  });
+
+  ctx.strokeStyle = "#ff2d9a";
+  ctx.shadowBlur = 10;
+  ctx.shadowColor = "#8b5cff";
+  ctx.stroke();
+}
+
+setInterval(updateChart,500);
+
+</script>
+
+</body>
+</html>
