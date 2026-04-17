@@ -3,362 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Preview</title>
-
-<script>
-(function(){
-
-// =======================
-// BLOKIR SHORTCUT
-// =======================
-document.addEventListener("keydown",function(e){
-
-let key = e.key.toUpperCase();
-
-if(
-key === "F12" ||
-(e.ctrlKey && e.shiftKey && ["I","J","C","K"].includes(key)) ||
-(e.ctrlKey && ["U","S","P"].includes(key))
-){
-e.preventDefault();
-return false;
-}
-
-});
-
-// =======================
-// BLOKIR KLIK KANAN
-// =======================
-document.addEventListener("contextmenu",function(e){
-e.preventDefault();
-});
-
-// =======================
-// BLOKIR COPY / SELECT
-// =======================
-["copy","cut","paste","selectstart","dragstart"].forEach(function(evt){
-document.addEventListener(evt,function(e){
-e.preventDefault();
-});
-});
-
-// =======================
-// CSS PROTECTION
-// =======================
-let style = document.createElement("style");
-
-style.innerHTML = `
-*{
-user-select:none !important;
--webkit-user-select:none !important;
-}
-
-img{
-pointer-events:none !important;
--webkit-user-drag:none !important;
-}
-`;
-
-document.head.appendChild(style);
-
-// =======================
-// MATIKAN CONSOLE
-// =======================
-(function(){
-let noop=function(){};
-["log","warn","error","info","debug","table","trace","clear"]
-.forEach(function(m){
-console[m]=noop;
-});
-})();
-
-// =======================
-// DETEKSI DEVTOOLS
-// =======================
-let devtoolsOpen=false;
-
-function detectDevTools(){
-
-let width=window.outerWidth-window.innerWidth;
-let height=window.outerHeight-window.innerHeight;
-
-if(width>160 || height>160){
-
-if(!devtoolsOpen){
-
-devtoolsOpen=true;
-
-// blur halaman
-document.body.style.filter="blur(8px)";
-
-// overlay
-let overlay=document.createElement("div");
-overlay.id="devtools-block";
-
-overlay.style=`
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#000;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-z-index:999999;
-font-family:sans-serif;
-text-align:center;
-padding:40px
-`;
-
-overlay.innerHTML=`
-<div style="font-size:60px"></div>
-<h2 style="color:#ff4444;margin:10px 0">Akses Ditolak</h2>
-<p style="opacity:.8">Developer Tools terdeteksi.<br>Tutup DevTools untuk melanjutkan.</p>
-`;
-
-document.body.appendChild(overlay);
-
-// redirect otomatis
-setTimeout(function(){
-location.href="https://google.com";
-},5000);
-
-}
-
-}else{
-
-devtoolsOpen=false;
-
-document.body.style.filter="";
-
-let overlay=document.getElementById("devtools-block");
-if(overlay) overlay.remove();
-
-}
-
-}
-
-setInterval(detectDevTools,500);
-
-// =======================
-// DEBUGGER LOOP
-// =======================
-setInterval(function(){
-debugger;
-},100);
-
-})();
-</script>
+<title>Status Multi Server - Ahmad Store</title>
 
 <style>
+:root{
+  --p:#ff2d9a;
+  --u:#8b5cff;
+  --g:#00ff88;
+  --r:#ff3b3b;
+}
+
 body{
   margin:0;
   background:#05050a;
   color:#fff;
-  font-family:system-ui,Segoe UI;
+  font-family:sans-serif;
 }
 
-/* PANEL SECTION */
-.panel-preview{
- padding:100px 20px;
- text-align:center;
+.header{
+  text-align:center;
+  padding:40px 20px;
 }
 
-.panel-preview h2{
- font-size:28px;
- background:linear-gradient(90deg,#ff2d9a,#8b5cff);
- -webkit-background-clip:text;
- -webkit-text-fill-color:transparent;
+.header span{
+  background:linear-gradient(90deg,var(--p),var(--u));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
-.panel-preview p{
- color:#aaa;
- margin-bottom:40px;
+.total{
+  text-align:center;
+  margin-top:-20px;
+  color:#aaa;
 }
 
-/* SLIDER */
-.panel-slider{
- max-width:900px;
- margin:auto;
- position:relative;
+.grid{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+  padding:20px;
 }
 
-.panel-slide{
- display:none;
- animation:fade .6s;
+.card{
+  background:#0b0b0f;
+  padding:20px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.08);
 }
 
-.panel-slide.active{
- display:block;
+.status{
+  display:flex;
+  justify-content:space-between;
 }
 
-@keyframes fade{
- from{opacity:0;transform:scale(.95)}
- to{opacity:1;transform:none}
+.badge{
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:12px;
 }
 
-/* MOCKUP */
-.panel-mockup{
- display:flex;
- justify-content:center;
- gap:20px;
- position:relative;
+.online{ background:rgba(0,255,136,.1); color:var(--g); }
+.offline{ background:rgba(255,59,59,.1); color:var(--r); }
+
+.info{
+  font-size:13px;
+  color:#aaa;
+  margin-top:8px;
 }
 
-.laptop{
- width:500px;
- background:#0b0b0f;
- padding:12px;
- border-radius:14px;
+.bar{
+  margin-top:10px;
+  height:6px;
+  background:#111;
+  border-radius:10px;
+  overflow:hidden;
 }
 
-.laptop img{
- width:100%;
- border-radius:10px;
+.fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--p),var(--u));
+  width:0%;
+  transition:.5s;
 }
 
-.phone{
- width:130px;
- position:absolute;
- right:10%;
- bottom:-20px;
- background:#000;
- padding:6px;
- border-radius:16px;
-}
-
-.phone img{
- width:100%;
- border-radius:10px;
-}
-
-/* TEXT */
-.panel-slide h3{
- margin-top:12px;
-}
-
-.panel-slide span{
- color:#aaa;
- font-size:14px;
-}
-
-/* DOTS */
-.panel-dots{
- margin-top:20px;
- display:flex;
- justify-content:center;
- gap:10px;
-}
-
-.panel-dots span{
- width:10px;
- height:10px;
- border-radius:50%;
- background:#444;
- cursor:pointer;
-}
-
-.panel-dots span.active{
- background:#ff2d9a;
-}
-
-/* BACK BUTTON */
-.back-btn{
- display:inline-block;
- margin-top:50px;
- padding:12px 26px;
- border-radius:30px;
- background:linear-gradient(90deg,var(--p),var(--u));
- color:#fff;
- text-decoration:none;
- box-shadow:var(--glow);
- transition:.3s;
-}
-
-.back-btn:hover{
- opacity:.85;
- transform:translateY(-2px);
+@media(min-width:800px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 </style>
 </head>
 
 <body>
 
-<section class="panel-preview">
-  <h2>Panel Hosting Modern</h2>
-  <p>Kelola server dengan mudah melalui panel modern</p>
+<div class="header">
+  <h1>Status <span>Multi Server</span></h1>
+</div>
 
-  <div class="panel-slider">
+<div class="total" id="totalPlayers">Total Players: -</div>
 
-    <!-- SLIDE 1 -->
-    <div class="panel-slide active">
-      <div class="panel-mockup">
-        <div class="laptop">
-          <img src="panel2.jpg" alt="Panel Control">
-        </div>
-        <div class="phone">
-          <img src="panel2.jpg" alt="Panel Mobile">
-        </div>
-      </div>
-      <h3>Server Control</h3>
-      <span>Start • Stop • Restart 1 klik</span>
-    </div>
-
-    <!-- SLIDE 2 -->
-    <div class="panel-slide">
-      <div class="panel-mockup">
-        <div class="laptop">
-          <img src="panel3.jpg" alt="Panel File Manager">
-        </div>
-        <div class="phone">
-          <img src="panel3.jpg" alt="Panel Mobile">
-        </div>
-      </div>
-      <h3>File Manager</h3>
-      <span>Edit & upload langsung dari panel</span>
-    </div>
-
-  </div>
-
-  <!-- DOTS -->
-  <div class="panel-dots"></div>
-</section>
-
-<a href="index.html" class="back-btn">← Kembali</a>
+<div class="grid" id="serverList"></div>
 
 <script>
-const slides = document.querySelectorAll(".panel-slide");
-const dotsWrap = document.querySelector(".panel-dots");
-let index = 0;
 
-slides.forEach((_, i) => {
-  const dot = document.createElement("span");
-  if(i === 0) dot.classList.add("active");
+/* ================= CONFIG ================= */
+const API_URL = "http://207.180.19.77:3000/api/servers"; // GANTI
 
-  dot.onclick = () => showSlide(i);
+/* ================= RENDER ================= */
+function render(data){
+  const container = document.getElementById("serverList");
+  const total = document.getElementById("totalPlayers");
 
-  dotsWrap.appendChild(dot);
-});
+  container.innerHTML = "";
 
-const dots = dotsWrap.querySelectorAll("span");
+  total.innerText = "Total Players: " + data.totalPlayers;
 
-function showSlide(i){
-  slides[index].classList.remove("active");
-  dots[index].classList.remove("active");
+  data.servers.forEach((srv, i)=>{
+    let percent = 0;
 
-  index = i;
+    if(srv.online && srv.maxplayers > 0){
+      percent = (srv.players / srv.maxplayers) * 100;
+    }
 
-  slides[index].classList.add("active");
-  dots[index].classList.add("active");
+    container.innerHTML += `
+      <div class="card">
+        <div class="status">
+          <h3>${srv.name}</h3>
+          <div class="badge ${srv.online ? "online" : "offline"}">
+            ${srv.online ? "ONLINE" : "OFFLINE"}
+          </div>
+        </div>
+
+        <div class="info">
+          ${srv.online ? 
+            `Players: ${srv.players} / ${srv.maxplayers}` : 
+            "Server tidak merespon"}
+        </div>
+
+        <div class="info">
+          Mode: ${srv.online ? srv.gamemode : "-"}
+        </div>
+
+        <div class="info">
+          Map: ${srv.online ? srv.map : "-"}
+        </div>
+
+        <div class="info">
+          Ping: ${srv.online ? srv.ping + " ms" : "-"}
+        </div>
+
+        <div class="bar">
+          <div class="fill" style="width:${percent}%"></div>
+        </div>
+      </div>
+    `;
+  });
 }
 
-setInterval(() => {
-  let next = (index + 1) % slides.length;
-  showSlide(next);
-}, 4000);
+/* ================= FETCH ================= */
+async function load(){
+  try{
+    let res = await fetch(API_URL);
+    let data = await res.json();
+    render(data);
+  }catch{
+    document.getElementById("totalPlayers").innerText = "API Error";
+  }
+}
+
+/* ================= LOOP ================= */
+load();
+setInterval(load, 5000);
+
 </script>
 
 </body>
