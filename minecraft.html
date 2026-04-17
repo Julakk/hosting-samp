@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minecraft Hosting - Ahmad Store</title>
+
+<!-- FAVICON & PWA (Minecraft Version) -->
+<link rel="icon" type="image/svg+xml" href="minecraft-icon.svg">
+<link rel="apple-touch-icon" href="minecraft-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="description" content="Ahmad Store menyediakan hosting Minecraft murah, stabil, dan performa tinggi. Cocok untuk server survival, SMP, roleplay, dan minigames dengan uptime 99.9% dan support 24 jam.">
+<meta name="keywords" content="hosting minecraft murah, server minecraft indonesia, minecraft hosting, mc server murah, hosting smp, minecraft panel hosting">
+<meta name="author" content="Ahmad Store">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#22c55e">
+
+<script>
+(function(){
+
+// =======================
+// BLOKIR SHORTCUT
+// =======================
+document.addEventListener("keydown",function(e){
+
+let key = e.key.toUpperCase();
+
+if(
+key === "F12" ||
+(e.ctrlKey && e.shiftKey && ["I","J","C","K"].includes(key)) ||
+(e.ctrlKey && ["U","S","P"].includes(key))
+){
+e.preventDefault();
+return false;
+}
+
+});
+
+// =======================
+// BLOKIR KLIK KANAN
+// =======================
+document.addEventListener("contextmenu",function(e){
+e.preventDefault();
+});
+
+// =======================
+// BLOKIR COPY / SELECT
+// =======================
+["copy","cut","paste","selectstart","dragstart"].forEach(function(evt){
+document.addEventListener(evt,function(e){
+e.preventDefault();
+});
+});
+
+// =======================
+// CSS PROTECTION
+// =======================
+let style = document.createElement("style");
+
+style.innerHTML = `
+*{
+user-select:none !important;
+-webkit-user-select:none !important;
+}
+
+img{
+pointer-events:none !important;
+-webkit-user-drag:none !important;
+}
+`;
+
+document.head.appendChild(style);
+
+// =======================
+// MATIKAN CONSOLE
+// =======================
+(function(){
+let noop=function(){};
+["log","warn","error","info","debug","table","trace","clear"]
+.forEach(function(m){
+console[m]=noop;
+});
+})();
+
+// =======================
+// DETEKSI DEVTOOLS
+// =======================
+let devtoolsOpen=false;
+
+function detectDevTools(){
+
+let width=window.outerWidth-window.innerWidth;
+let height=window.outerHeight-window.innerHeight;
+
+if(width>160 || height>160){
+
+if(!devtoolsOpen){
+
+devtoolsOpen=true;
+
+// blur halaman
+document.body.style.filter="blur(8px)";
+
+// overlay
+let overlay=document.createElement("div");
+overlay.id="devtools-block";
+
+overlay.style=`
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999999;
+font-family:sans-serif;
+text-align:center;
+padding:40px
+`;
+
+overlay.innerHTML=`
+<div style="font-size:60px"></div>
+<h2 style="color:#ff4444;margin:10px 0">Akses Ditolak</h2>
+<p style="opacity:.8">Developer Tools terdeteksi.<br>Tutup DevTools untuk melanjutkan.</p>
+`;
+
+document.body.appendChild(overlay);
+
+// redirect otomatis
+setTimeout(function(){
+location.href="https://google.com";
+},5000);
+
+}
+
+}else{
+
+devtoolsOpen=false;
+
+document.body.style.filter="";
+
+let overlay=document.getElementById("devtools-block");
+if(overlay) overlay.remove();
+
+}
+
+}
+
+setInterval(detectDevTools,500);
+
+// =======================
+// DEBUGGER LOOP
+// =======================
+setInterval(function(){
+debugger;
+},100);
+
+})();
+</script>
+
+<style>
+:root{
+ --p:#ff2d9a;
+ --u:#8b5cff;
+ --bg:#05050a;
+ --card:#12121c;
+ --glow:0 0 18px rgba(255,45,154,.6);
+}
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:system-ui,Segoe UI;
+ background:var(--bg);
+ color:#fff;
+}
+
+/* ===== NAVBAR (SAMA KAYAK INDEX) ===== */
+header{
+ position:fixed;
+ top:0;left:0;right:0;
+ padding:14px 20px;
+ background:rgba(10,10,18,.75);
+ backdrop-filter:blur(12px);
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ z-index:999;
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-weight:900;
+ font-size:18px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+nav{
+ display:flex;
+ gap:16px;
+}
+
+.nav-link{
+ color:#fff;
+ text-decoration:none;
+ font-size:14px;
+ padding:8px 12px;
+ border-radius:10px;
+ transition:.3s;
+}
+
+.nav-link:hover{
+ background:rgba(255,255,255,.05);
+ box-shadow:0 0 10px rgba(255,45,154,.4);
+}
+
+/* MOBILE */
+.hamburger{
+ display:none;
+ flex-direction:column;
+ gap:5px;
+ cursor:pointer;
+}
+
+.hamburger span{
+ width:25px;
+ height:3px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+}
+
+@media(max-width:768px){
+ nav{
+  position:fixed;
+  top:60px;
+  right:-100%;
+  flex-direction:column;
+  background:#0b0b14;
+  width:200px;
+  padding:20px;
+  transition:.4s;
+ }
+ nav.active{right:0;}
+ .hamburger{display:flex;}
+}
+
+/* CONTENT */
+.main{
+ padding-top:100px;
+}
+
+.title-page{
+ text-align:center;
+ font-size:28px;
+ margin-bottom:30px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+/* GRID */
+.container{
+ padding:20px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+ gap:20px;
+}
+
+/* CARD */
+.card{
+ background:var(--card);
+ border-radius:18px;
+ padding:20px;
+ border:1px solid rgba(255,255,255,.05);
+ transition:.3s;
+}
+
+.card:hover{
+ transform:translateY(-6px) scale(1.02);
+ border-color:var(--p);
+ box-shadow:0 0 25px rgba(255,45,154,.25);
+}
+
+.price{
+ font-size:22px;
+ margin:10px 0;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.spec{
+ font-size:14px;
+ color:#bbb;
+ margin-bottom:15px;
+}
+
+/* BUTTON */
+.btn{
+ display:block;
+ text-align:center;
+ padding:12px;
+ border-radius:999px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ color:#fff;
+ text-decoration:none;
+ font-weight:bold;
+ box-shadow:var(--glow);
+}
+
+.btn:hover{
+ box-shadow:0 0 30px rgba(255,45,154,.8);
+}
+
+/* FOOTER */
+footer{
+ text-align:center;
+ padding:20px;
+ font-size:12px;
+ color:#777;
+}
+
+/* PANEL SECTION */
+.panel-preview{
+ padding:60px 20px;
+ text-align:center;
+}
+
+.panel-preview h2{
+ font-size:26px;
+ background:linear-gradient(90deg,var(--p),var(--u));
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+
+.panel-preview p{
+ color:#aaa;
+ margin-bottom:30px;
+}
+
+/* IMAGE GRID */
+.panel-images{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+ gap:20px;
+ max-width:900px;
+ margin:auto;
+}
+
+.panel-images img{
+ width:100%;
+ border-radius:15px;
+ cursor:pointer;
+ transition:.3s;
+ box-shadow:0 0 20px rgba(255,45,154,.2);
+}
+
+.panel-images img:hover{
+ transform:scale(1.05);
+ box-shadow:0 0 30px rgba(255,45,154,.5);
+}
+
+/* LIGHTBOX */
+.lightbox{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.9);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ z-index:9999;
+}
+
+.lightbox img{
+ max-width:90%;
+ max-height:90%;
+ border-radius:12px;
+ box-shadow:0 0 40px rgba(255,45,154,.7);
+}
+
+.mc-banner{
+ max-width:900px;
+ margin:0 auto 30px;
+ padding:0 20px;
+}
+
+.mc-banner img{
+ width:100%;
+ border-radius:20px;
+ box-shadow:0 0 30px rgba(255,45,154,.4);
+ transition:.3s;
+}
+
+.mc-banner img:hover{
+ transform:scale(1.02);
+ box-shadow:0 0 50px rgba(255,45,154,.7);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header>
+  <div class="brand">AHMAD STORE</div>
+
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="produk.html" class="nav-link">Produk</a>
+    <a href="panel.html" class="nav-link">Panel</a>
+    <a href="kontak.html" class="nav-link">Kontak</a>
+  </nav>
+</header>
+
+<!-- CONTENT -->
+<div class="main">
+
+  <h1 class="title-page">Minecraft Hosting</h1>
+  
+  <div class="mc-banner">
+  <img src="minecraft-banner.jpg" alt="Minecraft Banner">
+  </div>
+
+  <div class="container">
+
+    <!-- CARD -->
+    <div class="card">
+      <h3>Paket RINTIS (Cocok untuk Teman Main Bareng)</h3>
+      <div class="price">Rp 20.000 / bulan</div>
+      <div class="spec">
+      <p>RAM: Unlimited</p>
+      <p>Core: 30% (Shared Xeon Core)</p>
+      <p>Disk: 5 GB SSD/NVMe</p>
+      <p>Slot Pemain: Rekomendasi 2-5 Orang</p> 
+      <p>Version: Paper / Purpur (Optimized)</p>
+      <p>Fitur: Full FTP Access, Console Panel, DDoS Protection.</p>
+      </div>
+      <a href="https://wa.me/6287854851480?text=Halo%20saya%20ingin%20order%20Minecraft%20Starter" class="btn">Order</a>
+    </div>
+
+    <div class="card">
+      <h3>Paket SURVIVAL (Paling Laris)</h3>
+      <div class="price">Rp 35.000 / bulan</div>
+      <div class="spec">
+      <p>RAM: Unlimitede</p>
+      <p>Core: 50% (Shared Xeon Core)</p>
+      <p>Disk: 10 GB SSD/NVMe</p>
+      <p>Slot Pemain: Rekomendasi 5-10 Orang</p> 
+      <p>Version: Paper / Purpur (Optimized)</p>
+      <p>Fitur: Full FTP Access, Console Panel, DDoS Protection.</p>
+      </div>
+      <a href="https://wa.me/6287854851480?text=Halo%20saya%20ingin%20order%20Minecraft%20Basic" class="btn">Order</a>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- PANEL PREVIEW -->
+<section class="panel-preview">
+
+  <h2>Preview Panel Minecraft</h2>
+  <p>Lihat tampilan panel hosting yang akan kamu gunakan</p>
+
+  <div class="panel-images">
+
+    <img src="minecraft1.jpg" onclick="openImage(this)">
+    <img src="minecraft2.jpg" onclick="openImage(this)">
+    <img src="minecraft3.jpg" onclick="openImage(this)">
+
+  </div>
+
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeImage()">
+  <img id="lightbox-img">
+</div>
+
+<footer>
+  © 2026 Ahmad Store
+</footer>
+
+<script>
+function toggleMenu(){
+ document.getElementById("nav").classList.toggle("active");
+}
+
+function openImage(img){
+ document.getElementById("lightbox").style.display = "flex";
+ document.getElementById("lightbox-img").src = img.src;
+}
+
+function closeImage(){
+ document.getElementById("lightbox").style.display = "none";
+}
+</script>
+
+</body>
+</html>
