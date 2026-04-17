@@ -1027,6 +1027,13 @@ footer small{
     grid-template-columns:1fr 1fr;
   }
 }
+
+.filter-icon.minecraft rect:first-child {
+  fill: #4CAF50; /* rumput */
+}
+.filter-icon.minecraft rect {
+  fill: #2E7D32;
+}
 </style>
 </head>
 
@@ -1144,6 +1151,17 @@ footer small{
     <path d="M3 12l18-9-4 9 4 9z"/>
   </svg>
   Dedicated
+</button>
+
+<button class="filter" onclick="window.location.href='minecraft.html'">
+  <svg class="filter-icon minecraft" viewBox="0 0 24 24">
+    <!-- Icon block sederhana (Minecraft style) -->
+    <rect x="4" y="4" width="16" height="16" rx="2"/>
+    <rect x="8" y="8" width="2" height="2"/>
+    <rect x="14" y="8" width="2" height="2"/>
+    <rect x="10" y="12" width="4" height="2"/>
+  </svg>
+  Minecraft
 </button>
 </div>
 
